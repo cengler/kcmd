@@ -1,19 +1,18 @@
 const conf = new (require('conf'))()
 const chalk = require('chalk')
 
-function kadd (name, servers) {
+function kadd (name, brokers) {
     let kafkaList = conf.get('kafka-list')
-
     if (!kafkaList) {
         kafkaList = []
     }
     kafkaList.push({
         name,
-        servers
+        brokers
     })
     conf.set('kafka-list', kafkaList)
     console.log(
-        chalk.green.bold('Kafka has been added successfully!')
+      chalk.green.bold('Kafka has been added successfully!')
     )
 }
 

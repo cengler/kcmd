@@ -6,13 +6,12 @@ function klist () {
     if (kafkaList && kafkaList.length) {
         kafkaList.forEach((kafka, index) => {
             console.log(
-                chalk.yellowBright(`${index}. Name: ${kafka.name} Servers: ${kafka.servers}`)
+              chalk.yellowBright(`${index}. Name: ${kafka.name} Brokers: ${kafka.brokers}`)
             )
-            
         })
     } else {
         console.log(
-            chalk.red.bold('You don\'t have a kakfa yet.')
+          chalk.red.bold('You don\'t have a kafka yet.')
         )
     }
 }
