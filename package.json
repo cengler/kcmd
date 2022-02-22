@@ -16,6 +16,6 @@
     "lodash": "^4.17.21"
   },
   "bin": {
-    "todos": "index.js"
+    "k": "index.js"
   }
 }

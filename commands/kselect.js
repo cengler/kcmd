@@ -11,33 +11,18 @@ const selectOne = (choices, startElement, message, field = null) => {
     message,
     choices,
   }
-  if(field) question.default = _.findIndex(choices, ['field', startElement[field]])
-  else question.default = _.findIndex(choices, startElement)
+  if(field && startElement) question.default = _.findIndex(choices, [field, startElement[field]])
+  else if (startElement) question.default = _.findIndex(choices, startElement)
   return inquirer.prompt([question]).then(a => a.value)
 }
-
-
-const askServer = (server, servers) => {
-  const questions = [
-    {
-      type: 'list',
-      name: 'server',
-      message: 'Select the kafka server',
-      choices: servers,
-      default: _.findIndex(servers, ['name', server.name])
-    }
-  ];
-  return inquirer.prompt(questions);
-}
-
-
 
 function kselectServer () {
   let kafkaList = conf.get('kafka-list')
   let server = conf.get('kafka-server')
-  askServer(server, kafkaList)
-    .then(r => {
-      const idx = _.findIndex(kafkaList, ['name', r.server]);
+  selectOne(kafkaList, server, 'Select server', 'name')
+    .then(server => {
+      console.log('sss', server)
+      const idx = _.findIndex(kafkaList, ['name', server]);
       const s = kafkaList[idx]
       conf.set('kafka-server', s)
       console.log(
