@@ -1,0 +1,21 @@
+{
+  "name": "my-cli",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "author": "Christian Engler",
+  "dependencies": {
+    "chalk": "^4.1.0",
+    "commander": "^7.2.0",
+    "conf": "^9.0.2",
+    "inquirer": "^8.2.0",
+    "kafkajs": "^1.16.0",
+    "lodash": "^4.17.21"
+  },
+  "bin": {
+    "todos": "index.js"
+  }
+}
