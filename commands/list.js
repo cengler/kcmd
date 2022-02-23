@@ -1,7 +1,7 @@
 const conf = new (require('conf'))()
 const chalk = require('chalk')
 
-function klist () {
+function list () {
     const kafkaList = conf.get('kafka-list')
     if (kafkaList && kafkaList.length) {
         kafkaList.forEach((kafka, index) => {
@@ -15,4 +15,4 @@ function klist () {
         )
     }
 }
-module.exports = klist
+module.exports = list

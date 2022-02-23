@@ -1,7 +1,7 @@
 const conf = new (require('conf'))()
 const chalk = require('chalk')
 
-function kadd (name, brokers) {
+function add (name, brokers) {
     let kafkaList = conf.get('kafka-list')
     if (!kafkaList) {
         kafkaList = []
@@ -16,4 +16,4 @@ function kadd (name, brokers) {
     )
 }
 
-module.exports = kadd
+module.exports = add

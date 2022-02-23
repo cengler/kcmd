@@ -51,7 +51,7 @@ function kselectTopic () {
 
 }
 
-function kselect (type) {
+function select (type) {
   if(type === 'kafka')
     kselectServer()
   else if(type === 'topic')
@@ -64,4 +64,4 @@ function kselect (type) {
 
 }
 
-module.exports = kselect
+module.exports = select

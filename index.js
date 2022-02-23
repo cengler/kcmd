@@ -1,34 +1,40 @@
 #! /usr/bin/env node
 const { program, commander } = require('commander')
-const kadd = require('./commands/kadd')
-const klist = require('./commands/klist')
-const kselect = require('./commands/kselect')
-const ktopics = require('./commands/ktopics')
-const kshow = require('./commands/kshow')
+const add = require('./commands/add')
+const list = require('./commands/list')
+const select = require('./commands/select')
+const topics = require('./commands/topics')
+const show = require('./commands/show')
+const consumer = require('./commands/consumer')
 
 program
-  .command('klist')
+  .command('list')
   .description('List all kafka servers')
-  .action(klist)
+  .action(list)
 
 program
-  .command('kshow')
+  .command('show')
   .description('Show selected')
-  .action(kshow)
+  .action(show)
 
 program
-  .command('kadd <name> <brokers>')
+  .command('add <name> <brokers>')
   .description('Add a kafka servers')
-  .action(kadd)
+  .action(add)
 
 program
-  .command('kselect <type>')
+  .command('select <type>')
   .description('Select a kafka server')
-  .action(kselect)
+  .action(select)
 
 program
-  .command('ktopics')
+  .command('topics')
   .description('List all topics of selected kafka')
-  .action(ktopics)
+  .action(topics)
+
+program
+  .command('consumer')
+  .description('Consume messages of selected topic')
+  .action(consumer)
 
 program.parse()

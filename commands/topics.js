@@ -2,7 +2,7 @@ const conf = new (require('conf'))()
 const chalk = require('chalk')
 const kafka = require('./../services/kafka');
 
-async function ktopics () {
+async function topics () {
   const kServer = conf.get('kafka-server')
   if (kServer) {
     kafka.topics(kServer.brokers)
@@ -20,4 +20,4 @@ async function ktopics () {
   }
 }
 
-module.exports = ktopics
+module.exports = topics

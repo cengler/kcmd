@@ -1,7 +1,7 @@
 const conf = new (require('conf'))()
 const chalk = require('chalk')
 
-function kshow () {
+function show () {
     const kafkaServer = conf.get('kafka-server')
     if (kafkaServer) {
         console.log(
@@ -13,4 +13,4 @@ function kshow () {
         )
     }
 }
-module.exports = kshow
+module.exports = show

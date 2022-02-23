@@ -13,6 +13,7 @@
     "conf": "^9.0.2",
     "inquirer": "^8.2.0",
     "kafkajs": "^1.16.0",
+    "kafkajs-snappy": "^1.1.0",
     "lodash": "^4.17.21"
   },
   "bin": {
