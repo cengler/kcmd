@@ -1,8 +1,18 @@
-const conf = new (require('conf'))()
+const config = require('./../services/config')
 const chalk = require('chalk')
 
-function list () {
-    const kafkaList = conf.get('kafka-list')
+function add (name, brokers) {
+    config.addKafka({
+        name,
+        brokers
+    })
+    console.log(
+      chalk.green.bold('Kafka has been added successfully!')
+    )
+}
+
+function clusters () {
+    const kafkaList = config.getKafkaList()
     if (kafkaList && kafkaList.length) {
         kafkaList.forEach((kafka, index) => {
             console.log(
@@ -15,4 +25,8 @@ function list () {
         )
     }
 }
-module.exports = list
+
+module.exports = {
+    add,
+    clusters
+}

@@ -1,11 +1,15 @@
-const conf = new (require('conf'))()
+const config = require('./../services/config')
 const chalk = require('chalk')
 const kafka = require('./../services/kafka');
 
 async function topics () {
-  const kServer = conf.get('kafka-server')
-  if (kServer) {
-    kafka.topics(kServer.brokers)
+  const select = config.getSelected()
+  if (!select || !select.kafka) {
+    console.log(
+      chalk.red.bold('You don\'t have a kafka selected yet.')
+    )
+  } else {
+    kafka.topics(select.kafka.brokers)
       .then(ts => {
         ts.forEach((t, index) => {
           console.log(
@@ -13,11 +17,29 @@ async function topics () {
           )
         })
       })
-  } else {
-    console.log(
-      chalk.red.bold('You don\'t have a kafka selected yet.')
-    )
   }
 }
 
-module.exports = topics
+async function topic () {
+  const select = config.getSelected()
+  if (!select || !select.kafka) {
+    console.log(
+      chalk.red.bold('You don\'t have a kafka selected yet.')
+    )
+  } else if(!select.topic){
+    console.log(
+      chalk.red.bold('You don\'t have a kafka topic selected yet.')
+    )
+  } else {
+    console.log('aca')
+    kafka.topicMetadata(select.kafka.brokers, select.topic)
+      .then(m => {
+        console.table(m)
+      })
+  }
+}
+
+module.exports = {
+  topics,
+  topic
+}

@@ -1,8 +1,8 @@
-const conf = new (require('conf'))()
+const config = require('./../services/config')
 const chalk = require('chalk')
 
 function show () {
-    const kafkaServer = conf.get('kafka-server')
+    const kafkaServer = config.getSelected()
     if (kafkaServer) {
         console.log(
           chalk.yellowBright(`Selected: ${JSON.stringify(kafkaServer, null, 2)}`)

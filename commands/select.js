@@ -1,4 +1,4 @@
-const conf = new (require('conf'))()
+const config = require('./../services/config')
 const chalk = require('chalk')
 const _ = require('lodash')
 const inquirer = require('inquirer');
@@ -17,14 +17,14 @@ const selectOne = (choices, startElement, message, field = null) => {
 }
 
 function kselectServer () {
-  let kafkaList = conf.get('kafka-list')
-  let server = conf.get('kafka-server')
+  let kafkaList = config.getKafkaList()
+  let server = config.getKafka()
   selectOne(kafkaList, server, 'Select server', 'name')
     .then(server => {
       console.log('sss', server)
       const idx = _.findIndex(kafkaList, ['name', server]);
       const s = kafkaList[idx]
-      conf.set('kafka-server', s)
+      config.setKafka(s)
       console.log(
         chalk.green.bold(`Kafka server [${s.name}] has been setted successfully!`)
       )
@@ -32,7 +32,7 @@ function kselectServer () {
 }
 
 function kselectTopic () {
-  let server = conf.get('kafka-server')
+  let server = config.getKafka()
   if(!server) {
     console.log(
       chalk.yellow.bold(`No Kafka server selected`)
@@ -42,13 +42,29 @@ function kselectTopic () {
       .then(ts => {
         selectOne(ts, server.topic, 'Select topic')
           .then(topic => {
-            server.topic = topic
-            conf.set('kafka-server', server)
+            config.setTopic(topic)
           })
 
       })
   }
+}
 
+function kselectGroup () {
+  let server = config.getKafka()
+  if(!server) {
+    console.log(
+      chalk.yellow.bold(`No Kafka server selected`)
+    )
+  } else {
+    kafka.groups(server.brokers)
+      .then(ts => {
+        ts = ts.map(t => t.name = t.groupId)
+        selectOne(ts, server.group, 'Select group', 'name')
+          .then(group => {
+            config.setGroup(group)
+          })
+      })
+  }
 }
 
 function select (type) {
@@ -56,12 +72,13 @@ function select (type) {
     kselectServer()
   else if(type === 'topic')
     kselectTopic()
+  else if(type === 'group')
+    kselectGroup()
   else {
     console.log(
       chalk.red.bold(`No type!!!`)
     )
   }
-
 }
 
 module.exports = select
