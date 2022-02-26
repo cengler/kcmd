@@ -16,7 +16,7 @@ async function updateConfig () {
     c => ({
       type: 'list',
       name: c.config,
-      message: c.config, // TODO c.message,
+      message: c.message ? c.message : `Set ${c.config} config`,
       default: cs[c.config],
       choices: c.values,
     })

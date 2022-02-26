@@ -1,6 +1,8 @@
 const conf = new (require('conf'))()
 
 const configValues = [
+  {config: 'banner-mode', message: 'Show banner', values: ['true', 'false'], default:'false'},
+  {config: 'verbose', values: ['true', 'false'], default:'true'},
   {config: 'verbose', values: ['true', 'false'], default:'true'},
   {config: 'debug', values: ['true', 'false'], default:'true'}
 ]

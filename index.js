@@ -1,4 +1,7 @@
 #! /usr/bin/env node
+const figlet = require('figlet')
+const chalk = require('chalk')
+const config = require('./services/config')
 const { program, commander } = require('commander')
 const { clusters, add } = require('./commands/servers')
 const select = require('./commands/select')
@@ -64,4 +67,12 @@ program
   .description('Update config')
   .action(updateConfig)
 
+config.getConfig().
+console.log(
+  chalk.green(
+    figlet.textSync('k tool', {
+      horizontalLayout: 'full',
+    })
+  )
+)
 program.parse()
