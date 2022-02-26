@@ -1,7 +1,14 @@
 const conf = new (require('conf'))()
 
-const getSelected = () => {
-  return conf.get("select")
+const configValues = [
+  {config: 'verbose', values: ['true', 'false'], default:'true'},
+  {config: 'debug', values: ['true', 'false'], default:'true'}
+]
+
+const getDefaultConfig = () => {
+  let c = {}
+  configValues.forEach(v => c[v.config] = v.default)
+  return c
 }
 
 const getKafkaList = () => {
@@ -16,6 +23,10 @@ const addKafka = (kafka) => {
   list.add(kafka)
   conf.set('kafka-list', list)
 
+}
+
+const getSelected = () => {
+  return conf.get("select")
 }
 
 const setKafka = (kafka) => {
@@ -34,6 +45,19 @@ const setGroup = (group) => {
   conf.set('select.group', group)
 }
 
+const getConfig = () => {
+  let c = conf.get("config")
+  if(!c) {
+    c = getDefaultConfig()
+    conf.set("config", c)
+  }
+  return c
+}
+
+const setConfig = (c) => {
+  conf.set('config', c)
+}
+
 module.exports = {
   getSelected,
   setTopic,
@@ -41,5 +65,8 @@ module.exports = {
   setGroup,
   getKafkaList,
   addKafka,
-  getKafka
+  getKafka,
+  getConfig,
+  setConfig,
+  configValues
 }

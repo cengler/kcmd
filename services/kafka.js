@@ -23,7 +23,7 @@ const topics = async (brokers) => {
   return ts
 }
 
-const consumer = async (brokers, topic) => {
+const consumer = async (brokers, topic, cb) => {
   const kafka = k(brokers)
   const consumer = kafka.consumer({groupId: `${clientId}-${v4()}` })
   await consumer.connect()
@@ -31,8 +31,7 @@ const consumer = async (brokers, topic) => {
   await consumer.run({
     autoCommit: false,
     eachMessage: async ({topic, partition, message, heartbeat}) => {
-      //console.log(JSON.parse(message.value.toString(),null,2))
-      console.log(message.value.toString())
+      cb(message, partition)
     },
   })
 }

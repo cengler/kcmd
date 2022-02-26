@@ -7,6 +7,7 @@ const show = require('./commands/show')
 const consumer = require('./commands/consumer')
 const offsets = require('./commands/offsets')
 const groups = require('./commands/groups')
+const { showConfig, updateConfig } = require('./commands/config')
 
 program
   .command('clusters')
@@ -52,5 +53,15 @@ program
   .command('offsets <type>')
   .description('Get topic/group offsets')
   .action(offsets)
+
+program
+  .command('config')
+  .description('Show current config')
+  .action(showConfig)
+
+program
+  .command('update-config')
+  .description('Update config')
+  .action(updateConfig)
 
 program.parse()
