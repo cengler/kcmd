@@ -1,16 +1,19 @@
-const {Kafka, CompressionCodecs, CompressionTypes} = require("kafkajs");
+const {Kafka, CompressionCodecs, CompressionTypes, logLevel} = require("kafkajs");
 const chalk = require("chalk");
 const { SnappyCodec } = require('kafkajs-snappy')
 const {v4} = require('uuid')
+const config = require('./config')
 
 CompressionCodecs[CompressionTypes.Snappy] = SnappyCodec
 
 const clientId = 'my-cli';
 
 const k = (brokers) => {
+  const verbose = config.getBooleanConfig(config.CONFIG_VERBOSE)
   return new Kafka({
     clientId,
     brokers: brokers.split(','),
+    logLevel: verbose ? logLevel.INFO : logLevel.ERROR
   })
 }
 

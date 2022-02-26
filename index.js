@@ -67,12 +67,13 @@ program
   .description('Update config')
   .action(updateConfig)
 
-config.getConfig().
-console.log(
-  chalk.green(
-    figlet.textSync('k tool', {
-      horizontalLayout: 'full',
-    })
+if(config.getBooleanConfig(config.CONFIG_BANNER)) {
+  console.log(
+    chalk.green(
+      figlet.textSync('k tool', {
+        horizontalLayout: 'full',
+      })
+    )
   )
-)
+}
 program.parse()

@@ -1,10 +1,15 @@
-const conf = new (require('conf'))()
+const Conf = require('conf')
+
+const conf = new Conf()
+
+const CONFIG_BANNER = 'banner-mode'
+const CONFIG_VERBOSE = 'verbose'
+const CONFIG_DISPLAY = 'display'
 
 const configValues = [
-  {config: 'banner-mode', message: 'Show banner', values: ['true', 'false'], default:'false'},
-  {config: 'verbose', values: ['true', 'false'], default:'true'},
-  {config: 'verbose', values: ['true', 'false'], default:'true'},
-  {config: 'debug', values: ['true', 'false'], default:'true'}
+  {config: CONFIG_BANNER, message: 'Show banner', values: ['true', 'false'], default:'true'},
+  {config: CONFIG_VERBOSE, values: ['true', 'false'], default:'true'},
+  {config: CONFIG_DISPLAY, values: ['table', 'csv', 'json'], default:'table'}
 ]
 
 const getDefaultConfig = () => {
@@ -60,6 +65,10 @@ const setConfig = (c) => {
   conf.set('config', c)
 }
 
+const getBooleanConfig = (config) => {
+  return getConfig()[config] === 'true'
+}
+
 module.exports = {
   getSelected,
   setTopic,
@@ -70,5 +79,8 @@ module.exports = {
   getKafka,
   getConfig,
   setConfig,
-  configValues
+  configValues,
+  getBooleanConfig,
+  CONFIG_BANNER,
+  CONFIG_VERBOSE
 }
