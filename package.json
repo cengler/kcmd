@@ -2,9 +2,12 @@
   "name": "my-cli",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "dist/index.js",
   "scripts": {
-    "start": "node index.js"
+    "clean": "rm -Rf ./dist",
+    "test": "mocha",
+    "build": "babel ./src --out-dir ./dist --copy-files",
+    "start": "npm run build && node dist/index.js"
   },
   "author": "Christian Engler",
   "dependencies": {
@@ -19,6 +22,16 @@
     "uuid": "^8.3.2"
   },
   "bin": {
-    "k": "index.js"
+    "k": "dist/index.js"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.17.6",
+    "@babel/core": "^7.17.5",
+    "@babel/preset-env": "^7.16.11",
+    "@babel/register": "^7.17.0",
+    "babel": "^6.23.0",
+    "chai": "^4.3.6",
+    "mocha": "^9.2.1",
+    "sinon": "^13.0.1"
   }
 }
