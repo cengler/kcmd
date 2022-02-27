@@ -23,7 +23,7 @@ const topics = async (brokers) => {
   await admin.connect()
   const ts = await admin.listTopics()
   await admin.disconnect()
-  return ts
+  return ts.sort()
 }
 
 const consumer = async (brokers, topic, cb) => {

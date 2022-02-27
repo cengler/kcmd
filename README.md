@@ -14,17 +14,17 @@ docker-compose up -d
 ```
 ### enter interactively
 ```
-docker exec -it k bash
+docker exec -it k_kafka_1 bash
 ```
 
 ### create test data
 ```
-docker exec k /opt/bitnami/kafka/bin/kafka-topics.sh --bootstrap-server localhost:9092 --create --topic caeycae
+docker exec k_kafka_1 /opt/bitnami/kafka/bin/kafka-topics.sh --bootstrap-server localhost:9092 --create --topic caeycae
 ```
 
 ## Persistent configuration files
 
 ### Mac
 ```
-cd ~/Library/Preferences/k
+cat ~/Library/Preferences/k-nodejs/config.json 
 ```
