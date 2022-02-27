@@ -1,16 +1,16 @@
 #! /usr/bin/env node
-const figlet = require('figlet')
-const chalk = require('chalk')
-const config = require('./services/config')
-const { program, commander } = require('commander')
-const { clusters, add } = require('./commands/servers')
-const select = require('./commands/select')
-const { topics, topic } = require('./commands/topics')
-const show = require('./commands/show')
-const consumer = require('./commands/consumer')
-const offsets = require('./commands/offsets')
-const groups = require('./commands/groups')
-const { showConfig, updateConfig } = require('./commands/config')
+import figlet from 'figlet'
+import chalk from 'chalk'
+import config from './services/config'
+import { program } from 'commander'
+import { clusters, add } from './commands/servers'
+import select from './commands/select'
+import { topics, topic } from './commands/topics'
+import show from './commands/show'
+import consumer from './commands/consumer'
+import offsets from './commands/offsets'
+import groups from './commands/groups'
+import { showConfig, updateConfig } from './commands/config'
 
 program
   .command('clusters')

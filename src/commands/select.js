@@ -1,8 +1,8 @@
-const config = require('./../services/config')
-const chalk = require('chalk')
-const _ = require('lodash')
-const inquirer = require('inquirer');
-const kafka = require('./../services/kafka');
+import config from './../services/config'
+import chalk from 'chalk'
+import _ from 'lodash'
+import inquirer from 'inquirer'
+import kafka from './../services/kafka'
 
 const selectOne = (choices, startElement, message, field = null) => {
   const question = {

@@ -1,6 +1,6 @@
-const config = require('./../services/config')
-const chalk = require('chalk')
-const kafka = require("./../services/kafka");
+import config from './../services/config'
+import chalk from 'chalk'
+import kafka from "./../services/kafka"
 
 function groups () {
     const server = config.getKafka()

@@ -1,7 +1,13 @@
 // display according configuration
+import config from './../services/config'
 
 const print = (data) => {
-  data.forEach(r => console.log(r))
+  if(config.getStringConfig(config.CONFIG_DISPLAY) === 'table') {
+    console.table(data)
+  } else {
+    data.forEach(r => console.log(r))
+  }
+
 }
 
 module.exports = {

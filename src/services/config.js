@@ -1,4 +1,4 @@
-const Conf = require('conf')
+import Conf from 'conf'
 
 const conf = new Conf()
 
@@ -69,6 +69,16 @@ const getBooleanConfig = (config) => {
   return getConfig()[config] === 'true'
 }
 
+const getStringConfig = (config) => {
+  return getConfig()[config]
+}
+
+const setStringConfig = (config, value) => {
+  let c = getConfig()
+  c[config] = value
+  setConfig(c)
+}
+
 module.exports = {
   getSelected,
   setTopic,
@@ -81,6 +91,9 @@ module.exports = {
   setConfig,
   configValues,
   getBooleanConfig,
+  getStringConfig,
+  setStringConfig,
   CONFIG_BANNER,
-  CONFIG_VERBOSE
+  CONFIG_VERBOSE,
+  CONFIG_DISPLAY
 }

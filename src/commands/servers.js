@@ -1,5 +1,5 @@
-const config = require('./../services/config')
-const chalk = require('chalk')
+import config from './../services/config'
+import chalk from 'chalk'
 
 function add (name, brokers) {
     config.addKafka({

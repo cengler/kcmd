@@ -1,8 +1,8 @@
-const {Kafka, CompressionCodecs, CompressionTypes, logLevel} = require("kafkajs");
-const chalk = require("chalk");
-const { SnappyCodec } = require('kafkajs-snappy')
-const {v4} = require('uuid')
-const config = require('./config')
+import {Kafka, CompressionCodecs, CompressionTypes, logLevel} from "kafkajs"
+import chalk from "chalk"
+import { SnappyCodec } from 'kafkajs-snappy'
+import {v4} from 'uuid'
+import config from './config'
 
 CompressionCodecs[CompressionTypes.Snappy] = SnappyCodec
 
