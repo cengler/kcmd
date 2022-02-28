@@ -11,8 +11,11 @@ const selectOne = (choices, startElement, message, field = null) => {
     message,
     choices,
   }
-  if (field && startElement) question.default = _.findIndex(choices, [field, startElement[field]])
-  else if (startElement) question.default = _.findIndex(choices, startElement)
+  if (choices.length && field && startElement) {
+    question.default = _.findIndex(choices, [field, startElement[field]])
+  } else if (choices.length && startElement) {
+    question.default = startElement
+  }
   return inquirer.prompt([question]).then(a => a.value)
 }
 
@@ -21,7 +24,6 @@ function selectServer() {
   let server = config.getKafka()
   selectOne(kafkaList, server, 'Select server', 'name')
     .then(server => {
-      console.log('sss', server)
       const idx = _.findIndex(kafkaList, ['name', server]);
       const s = kafkaList[idx]
       config.setKafka(s)
@@ -32,15 +34,15 @@ function selectServer() {
 }
 
 function selectTopic() {
-  let server = config.getKafka()
-  if (!server) {
+  let selected = config.getSelected()
+  if (!selected || !selected.kafka) {
     console.log(
       chalk.yellow.bold(`No Kafka server selected`)
     )
   } else {
-    kafka.topics(server.brokers)
+    kafka.topics(selected.kafka.brokers)
       .then(ts => {
-        selectOne(ts, server.topic, 'Select topic')
+        selectOne(ts, selected.topic, 'Select topic')
           .then(topic => {
             config.setTopic(topic)
           })
@@ -50,16 +52,16 @@ function selectTopic() {
 }
 
 function selectGroup() {
-  let server = config.getKafka()
-  if (!server) {
+  let selected = config.getSelected()
+  if (!selected || !selected.kafka) {
     console.log(
       chalk.yellow.bold(`No Kafka server selected`)
     )
   } else {
-    kafka.groups(server.brokers)
+    kafka.groups(selected.kafka.brokers)
       .then(ts => {
-        ts = ts.map(t => t.name = t.groupId)
-        selectOne(ts, server.group, 'Select group', 'name')
+        ts = ts.map(t => t.groupId)
+        selectOne(ts, selected.group, 'Select group')
           .then(group => {
             config.setGroup(group)
           })
