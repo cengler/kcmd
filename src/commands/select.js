@@ -11,12 +11,12 @@ const selectOne = (choices, startElement, message, field = null) => {
     message,
     choices,
   }
-  if(field && startElement) question.default = _.findIndex(choices, [field, startElement[field]])
+  if (field && startElement) question.default = _.findIndex(choices, [field, startElement[field]])
   else if (startElement) question.default = _.findIndex(choices, startElement)
   return inquirer.prompt([question]).then(a => a.value)
 }
 
-function kselectServer () {
+function selectServer() {
   let kafkaList = config.getKafkaList()
   let server = config.getKafka()
   selectOne(kafkaList, server, 'Select server', 'name')
@@ -31,9 +31,9 @@ function kselectServer () {
     })
 }
 
-function kselectTopic () {
+function selectTopic() {
   let server = config.getKafka()
-  if(!server) {
+  if (!server) {
     console.log(
       chalk.yellow.bold(`No Kafka server selected`)
     )
@@ -49,9 +49,9 @@ function kselectTopic () {
   }
 }
 
-function kselectGroup () {
+function selectGroup() {
   let server = config.getKafka()
-  if(!server) {
+  if (!server) {
     console.log(
       chalk.yellow.bold(`No Kafka server selected`)
     )
@@ -67,18 +67,20 @@ function kselectGroup () {
   }
 }
 
-function select (type) {
-  if(type === 'kafka')
-    kselectServer()
-  else if(type === 'topic')
-    kselectTopic()
-  else if(type === 'group')
-    kselectGroup()
-  else {
-    console.log(
-      chalk.red.bold(`No type!!!`)
-    )
-  }
+function select() {
+  selectOne(['kafka', 'topic', 'group'], 'kafka', 'Which?')
+    .then(answer => {
+      switch (answer) {
+        case 'kafka':
+          selectServer()
+          break;
+        case 'topic':
+          selectTopic()
+          break;
+        default:
+          selectGroup()
+      }
+    })
 }
 
 module.exports = select

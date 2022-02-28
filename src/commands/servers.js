@@ -15,7 +15,6 @@ function add(name, brokers) {
 function clusters() {
   const kafkaList = config.getKafkaList()
   if (kafkaList && kafkaList.length) {
-    console.log('ABC--!--!!!!!!!')
     display.print(kafkaList)
   } else {
     console.log(

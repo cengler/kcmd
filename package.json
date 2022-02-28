@@ -6,7 +6,7 @@
   "scripts": {
     "clean": "rm -Rf ./dist",
     "test": "mocha",
-    "build": "babel ./src --out-dir ./dist",
+    "build": "babel ./src --out-dir ./dist --source-maps",
     "start": "npm run build && node dist/index.js"
   },
   "author": "Christian Engler",

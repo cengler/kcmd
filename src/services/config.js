@@ -7,9 +7,9 @@ const CONFIG_VERBOSE = 'verbose'
 const CONFIG_DISPLAY = 'display'
 
 const configValues = [
-  {config: CONFIG_BANNER, message: 'Show banner', values: ['true', 'false'], default:'true'},
-  {config: CONFIG_VERBOSE, values: ['true', 'false'], default:'true'},
-  {config: CONFIG_DISPLAY, values: ['table', 'csv', 'json'], default:'table'}
+  {config: CONFIG_BANNER, message: 'Show banner', values: ['true', 'false'], default: 'true'},
+  {config: CONFIG_VERBOSE, values: ['true', 'false'], default: 'true'},
+  {config: CONFIG_DISPLAY, values: ['table', 'tsv', 'json'], default: 'table'}
 ]
 
 const getDefaultConfig = () => {
@@ -54,7 +54,7 @@ const setGroup = (group) => {
 
 const getConfig = () => {
   let c = conf.get("config")
-  if(!c) {
+  if (!c) {
     c = getDefaultConfig()
     conf.set("config", c)
   }

@@ -2,15 +2,15 @@
 import figlet from 'figlet'
 import chalk from 'chalk'
 import config from './services/config'
-import { program } from 'commander'
-import { clusters, add } from './commands/servers'
+import {program} from 'commander'
+import {add, clusters} from './commands/servers'
 import select from './commands/select'
-import { topics, topic } from './commands/topics'
+import {topic, topics} from './commands/topics'
 import show from './commands/show'
 import consumer from './commands/consumer'
 import offsets from './commands/offsets'
 import groups from './commands/groups'
-import { showConfig, updateConfig } from './commands/config'
+import {showConfig, updateConfig} from './commands/config'
 
 program
   .command('clusters')
@@ -38,7 +38,7 @@ program
   .action(add)
 
 program
-  .command('select <type>')
+  .command('select')
   .description('Select a kafka server/topic/group')
   .action(select)
 
@@ -67,7 +67,7 @@ program
   .description('Update config')
   .action(updateConfig)
 
-if(config.getBooleanConfig(config.CONFIG_BANNER)) {
+if (config.getBooleanConfig(config.CONFIG_BANNER)) {
   console.log(
     chalk.green(
       figlet.textSync('k tool', {

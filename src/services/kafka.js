@@ -1,8 +1,9 @@
-import {Kafka, CompressionCodecs, CompressionTypes, logLevel} from "kafkajs"
-import chalk from "chalk"
-import { SnappyCodec } from 'kafkajs-snappy'
+import {CompressionCodecs, CompressionTypes, Kafka, logLevel} from "kafkajs"
+import {SnappyCodec} from 'kafkajs-snappy'
 import {v4} from 'uuid'
 import config from './config'
+import {logCreator} from '../util/display'
+import _ from 'lodash'
 
 CompressionCodecs[CompressionTypes.Snappy] = SnappyCodec
 
@@ -13,7 +14,8 @@ const k = (brokers) => {
   return new Kafka({
     clientId,
     brokers: brokers.split(','),
-    logLevel: verbose ? logLevel.INFO : logLevel.ERROR
+    logLevel: verbose ? logLevel.INFO : logLevel.ERROR,
+    logCreator: logCreator
   })
 }
 
@@ -28,7 +30,7 @@ const topics = async (brokers) => {
 
 const consumer = async (brokers, topic, cb) => {
   const kafka = k(brokers)
-  const consumer = kafka.consumer({groupId: `${clientId}-${v4()}` })
+  const consumer = kafka.consumer({groupId: `${clientId}-${v4()}`})
   await consumer.connect()
   await consumer.subscribe({topic, fromBeginning: false})
   await consumer.run({
@@ -52,7 +54,7 @@ const topicMetadata = async (brokers, topic) => {
   const kafka = k(brokers)
   const admin = kafka.admin()
   await admin.connect()
-  const ts = await admin.fetchTopicMetadata({topics:[topic]})
+  const ts = await admin.fetchTopicMetadata({topics: [topic]})
   await admin.disconnect()
   return ts.topics[0].partitions
 }
@@ -61,7 +63,7 @@ const groupOffsets = async (brokers, groupId) => {
   const kafka = k(brokers)
   const admin = kafka.admin()
   await admin.connect()
-  const ts = await admin.fetchOffsets({ groupId })
+  const ts = await admin.fetchOffsets({groupId})
   await admin.disconnect()
   return ts
 }
@@ -72,7 +74,7 @@ const groups = async (brokers) => {
   await admin.connect()
   const ts = (await admin.listGroups()).groups
   await admin.disconnect()
-  return ts
+  return _.sortBy(ts, 'groupId')
 }
 
 module.exports = {
