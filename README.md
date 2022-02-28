@@ -1,30 +1,54 @@
-# k
+# kcmd: a simple kafka admin tool
 
 ![tests](https://github.com/cengler/k/actions/workflows/test.yml/badge.svg)
 ![audit](https://github.com/cengler/k/actions/workflows/audit.yml/badge.svg)
 
-## Project setup
-```
-npm i
-```
+## Installation:
 
-## Kafka Docker for dev
-```
-docker-compose up -d
-```
-### enter interactively
-```
-docker exec -it k_kafka_1 bash
-```
+#### Running on-demand:
 
-### create test data
-```
-docker exec k_kafka_1 /opt/bitnami/kafka/bin/kafka-topics.sh --bootstrap-server localhost:9092 --create --topic caeycae
-```
+Using `npx` you can run the script without installing it first:
 
-## Persistent configuration files
+    npx kcmd
 
-### Mac
+#### Globally via `npm`
+
+    npm install --global kcmd
+
+This will install `kcmd` globally so that it may be run from the command line anywhere.
+
+#### Globally via Homebrew
+
+    brew install http-server
+     
+#### As a dependency in your `npm` package:
+
+    npm install http-server
+
+## Usage:
 ```
-cat ~/Library/Preferences/k-nodejs/config.json 
+  _        _                     _ 
+ | | __   | |_    ___     ___   | |
+ | |/ /   | __|  / _ \   / _ \  | |
+ |   <    | |_  | (_) | | (_) | | |
+ |_|\_\    \__|  \___/   \___/  |_|
+                                   
+Usage: kcmd [options] [command]
+
+Options:
+  -h, --help            display help for command
+
+Commands:
+  clusters              List all kafka clusters
+  topics                List all topics of selected kafka
+  groups                List all groups of selected kafka
+  show                  Show all selected options
+  add <name> <brokers>  Add a kafka server
+  select                Select a kafka server/topic/group
+  consumer              Consume messages of selected topic
+  topic                 Get metadata of topic
+  offsets <type>        Get topic/group offsets
+  config                Show current config
+  update-config         Update config
+  help [command]        display help for command
 ```
