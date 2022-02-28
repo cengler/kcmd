@@ -19,11 +19,11 @@ This will install `kcmd` globally so that it may be run from the command line an
 
 ## Usage:
 ```
-  _        _                     _ 
- | | __   | |_    ___     ___   | |
- | |/ /   | __|  / _ \   / _ \  | |
- |   <    | |_  | (_) | | (_) | | |
- |_|\_\    \__|  \___/   \___/  |_|
+  _                             _ 
+ | | __   ___   _ __ ___     __| |
+ | |/ /  / __| | '_ ` _ \   / _` |
+ |   <  | (__  | | | | | | | (_| |
+ |_|\_\  \___| |_| |_| |_|  \__,_|
                                    
 Usage: kcmd [options] [command]
 
