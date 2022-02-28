@@ -22,7 +22,7 @@
     "uuid": "^8.3.2"
   },
   "bin": {
-    "k": "dist/index.js"
+    "kcmd": "dist/index.js"
   },
   "devDependencies": {
     "@babel/cli": "^7.17.6",
