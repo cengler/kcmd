@@ -47,7 +47,7 @@ const offsets = async (brokers, topic) => {
   await admin.connect()
   const ts = await admin.fetchTopicOffsets(topic)
   await admin.disconnect()
-  return ts
+  return _.sortBy(ts, 'partition')
 }
 
 const topicMetadata = async (brokers, topic) => {
