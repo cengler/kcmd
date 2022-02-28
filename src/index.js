@@ -70,7 +70,7 @@ program
 if (config.getBooleanConfig(config.CONFIG_BANNER)) {
   console.log(
     chalk.green(
-      figlet.textSync('k tool', {
+      figlet.textSync('kcmd', {
         horizontalLayout: 'full',
       })
     )
