@@ -13,17 +13,9 @@ Using `npx` you can run the script without installing it first:
 
 #### Globally via `npm`
 
-    npm install --global kcmd
+    npm i -g kcmd
 
 This will install `kcmd` globally so that it may be run from the command line anywhere.
-
-#### Globally via Homebrew
-
-    brew install http-server
-     
-#### As a dependency in your `npm` package:
-
-    npm install http-server
 
 ## Usage:
 ```
