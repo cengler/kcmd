@@ -27,7 +27,7 @@ const addKafka = (kafka) => {
   if (!list) {
     list = []
   }
-  list.add(kafka)
+  list.push(kafka)
   conf.set('kafka-list', list)
 
 }
