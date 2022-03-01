@@ -11,22 +11,23 @@ import consumer from './commands/consumer'
 import offsets from './commands/offsets'
 import groups from './commands/groups'
 import {showConfig, updateConfig} from './commands/config'
+import ls from './commands/ls'
 
 program
-  .command('clusters')
-  .description('List all kafka clusters')
-  .action(clusters)
+  .option('-v, --verbose');
 
 program
-  .command('topics')
-  .description('List all topics of selected kafka')
-  .action(topics)
+  .command('ls <type>')
+  .description('List clusters/brokers/topics/groups')
+  .action(ls)
 
 program
-  .command('groups')
-  .description('List all groups of selected kafka')
-  .action(groups)
+  .command('select <type>')
+  .description('Select a kafka cluster/topic/group')
+  .action(select)
 
+
+/*
 program
   .command('show')
   .description('Show all selected options')
@@ -36,11 +37,6 @@ program
   .command('add <name> <brokers>')
   .description('Add a kafka server')
   .action(add)
-
-program
-  .command('select')
-  .description('Select a kafka server/topic/group')
-  .action(select)
 
 program
   .command('consumer')
@@ -66,6 +62,7 @@ program
   .command('update-config')
   .description('Update config')
   .action(updateConfig)
+*/
 
 if (config.getBooleanConfig(config.CONFIG_BANNER)) {
   console.log(
@@ -76,4 +73,5 @@ if (config.getBooleanConfig(config.CONFIG_BANNER)) {
     )
   )
 }
+
 program.parse()

@@ -1,7 +1,6 @@
 import config from './../services/config'
 import chalk from 'chalk'
 import inquirer from 'inquirer'
-import _ from "lodash"
 
 async function showConfig () {
   const currentConfig = config.getConfig()

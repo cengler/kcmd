@@ -1,4 +1,5 @@
 import Conf from 'conf'
+import display from '../util/display'
 
 const conf = new Conf()
 
@@ -40,8 +41,34 @@ const setKafka = (kafka) => {
   conf.set('select.kafka', kafka)
 }
 
-const getKafka = () => {
-  return conf.get('select.kafka')
+const getKafka = (required = true) => {
+  const k = conf.get('select.kafka')
+  if(!k && required) {
+    display.error('You don\'t have a kafka selected yet.')
+    display.info('Call: kcmd select kafka')
+    process.exit(1)
+  }
+  return k
+}
+
+const getTopic = (required = true) => {
+  const t = conf.get('select.topic')
+  if(!t && required) {
+    display.error('You don\'t have a kafka topic selected yet.')
+    display.info('Call: kcmd select topic')
+    process.exit(1)
+  }
+  return t
+}
+
+const getGroup = (required = true) => {
+  const g = conf.get('select.group')
+  if(!g && required) {
+    display.error('You don\'t have a kafka group selected yet.')
+    display.info('Call: kcmd select group')
+    process.exit(1)
+  }
+  return g
 }
 
 const setTopic = (topic) => {
@@ -80,6 +107,8 @@ const setStringConfig = (config, value) => {
 }
 
 module.exports = {
+  getTopic,
+  getGroup,
   getSelected,
   setTopic,
   setKafka,

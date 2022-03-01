@@ -26,17 +26,28 @@ const print = (data) => {
 const logCreator = logLevel => ({namespace, label, log}) => {
   const {timestamp, logger, message, ...others} = log
   if (label === 'ERROR') {
-    console.log(
-      chalk.redBright(`${label} [${namespace}] ${message} ${JSON.stringify(others)}`)
-    )
+    error(`${label} [${namespace}] ${message} ${JSON.stringify(others)}`)
   } else {
-    console.log(
-      chalk.blueBright(`${label} [${namespace}] ${message} ${JSON.stringify(others)}`)
-    )
+    info(`${label} [${namespace}] ${message} ${JSON.stringify(others)}`)
   }
+}
+
+const error = (message) => {
+  console.log(chalk.red.bold(message))
+}
+
+const info = (message) => {
+  console.log(chalk.blue.bold(message))
+}
+
+const success = (message) => {
+  console.log(chalk.green.bold(message))
 }
 
 module.exports = {
   print,
-  logCreator
+  logCreator,
+  error,
+  info,
+  success
 }

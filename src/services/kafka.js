@@ -28,6 +28,15 @@ const topics = async (brokers) => {
   return ts.sort()
 }
 
+const brokers = async (brokers) => {
+  const kafka = k(brokers)
+  const admin = kafka.admin()
+  await admin.connect()
+  const cluster = await admin.describeCluster()
+  await admin.disconnect()
+  return _.sortBy(cluster.brokers, 'nodeId')
+}
+
 const consumer = async (brokers, topic, cb) => {
   const kafka = k(brokers)
   const consumer = kafka.consumer({groupId: `${clientId}-${v4()}`})
@@ -83,5 +92,6 @@ module.exports = {
   offsets,
   groupOffsets,
   groups,
-  topicMetadata
+  topicMetadata,
+  brokers
 }
