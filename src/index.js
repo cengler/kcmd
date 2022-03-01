@@ -3,14 +3,13 @@ import figlet from 'figlet'
 import chalk from 'chalk'
 import config from './services/config'
 import {program} from 'commander'
-import {add, clusters} from './commands/servers'
-import select from './commands/select'
-import {topic, topics} from './commands/topics'
+import add from './commands/add'
+import setter from './commands/set'
+import topicMetadata from './commands/topicMetadata'
 import show from './commands/show'
 import consumer from './commands/consumer'
 import offsets from './commands/offsets'
-import groups from './commands/groups'
-import {showConfig, updateConfig} from './commands/config'
+import updateConfig from './commands/config'
 import ls from './commands/ls'
 
 program
@@ -22,16 +21,9 @@ program
   .action(ls)
 
 program
-  .command('select <type>')
-  .description('Select a kafka cluster/topic/group')
-  .action(select)
-
-
-/*
-program
-  .command('show')
-  .description('Show all selected options')
-  .action(show)
+  .command('set <type>')
+  .description('Set a kafka cluster/topic/group')
+  .action(setter)
 
 program
   .command('add <name> <brokers>')
@@ -39,30 +31,31 @@ program
   .action(add)
 
 program
+  .command('offsets <type>')
+  .description('Get topic/group offsets')
+  .action(offsets)
+
+// TODO se puede hacer lag, cruzando offsets de topic + partition
+
+program
   .command('consumer')
   .description('Consume messages of selected topic')
   .action(consumer)
 
 program
-  .command('topic')
-  .description('Get metadata of topic')
-  .action(topic)
-
-program
-  .command('offsets <type>')
-  .description('Get topic/group offsets')
-  .action(offsets)
+  .command('show')
+  .description('Show all selected options')
+  .action(show)
 
 program
   .command('config')
-  .description('Show current config')
-  .action(showConfig)
-
-program
-  .command('update-config')
   .description('Update config')
   .action(updateConfig)
-*/
+
+program
+  .command('topic') // TODO command name?
+  .description('Get metadata of topic')
+  .action(topicMetadata)
 
 if (config.getBooleanConfig(config.CONFIG_BANNER)) {
   console.log(

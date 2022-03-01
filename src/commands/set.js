@@ -4,9 +4,9 @@ import _ from 'lodash'
 import { selectOne } from '../util/inquirerUtils'
 import kafka from './../services/kafka'
 
-function selectCluster() {
+function setCluster() {
   let kafkaList = config.getKafkaList()
-  let selectedKafka = config.getKafka(false)
+  let selectedKafka = config.getKafka()
   selectOne(kafkaList, selectedKafka, 'Select kafka cluster', 'name')
     .then(cluster => {
       const idx = _.findIndex(kafkaList, ['name', cluster]);
@@ -16,11 +16,11 @@ function selectCluster() {
     })
 }
 
-function selectTopic() {
+function setTopic() {
   const sk = config.getKafka()
   kafka.topics(sk.brokers)
     .then(ts => {
-      const st = config.getTopic(false)
+      const st = config.getTopic()
       selectOne(ts, st, 'Select topic')
         .then(topic => {
           config.setTopic(topic)
@@ -28,12 +28,12 @@ function selectTopic() {
     })
 }
 
-function selectGroup() {
+function setGroup() {
   const sk = config.getKafka()
   kafka.groups(sk.brokers)
     .then(gs => {
       gs = gs.map(t => t.groupId)
-      const sg = config.getGroup(false)
+      const sg = config.getGroup()
       selectOne(gs, sg, 'Select group')
         .then(group => {
           config.setGroup(group)
@@ -41,20 +41,20 @@ function selectGroup() {
     })
 }
 
-function select(type) {
+function setter(type) {
   switch (type) {
     case 'cluster':
-      selectCluster()
+      setCluster()
       break
     case 'topic':
-      selectTopic()
+      setTopic()
       break
     case 'group':
-      selectGroup()
+      setGroup()
       break
     default:
       display.error('error: invalid argument \'type\'. Allowed choices are: cluster, topic, group')
   }
 }
 
-module.exports = select
+module.exports = setter

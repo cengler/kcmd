@@ -1,7 +1,59 @@
 import Conf from 'conf'
-import display from '../util/display'
-
 const conf = new Conf()
+
+const SELECT = 'select'
+const KAFKA = 'select.kafka'
+const TOPIC = 'select.topic'
+const GROUP = 'select.group'
+const CONFIG = 'config'
+
+// SELECT SECTION
+
+const getSelected = () => {
+  return conf.get(SELECT)
+}
+
+function getKafka() {
+  return conf.get(KAFKA)
+}
+
+function getTopic() {
+  return conf.get(TOPIC)
+}
+
+function getGroup() {
+  return conf.get(GROUP)
+}
+
+function setKafka(kafka) {
+  conf.set(KAFKA, kafka)
+}
+
+function setTopic(topic) {
+  conf.set(TOPIC, topic)
+}
+
+function setGroup(group) {
+  conf.set(GROUP, group)
+}
+
+// KAFKA CLUSTERS SECTION
+// FIXME pasar a MAP y convertir a list en el get
+
+const getKafkaList = () => {
+  return conf.get('kafka-list')
+}
+
+const addKafka = (kafka) => {
+  let list = conf.get('kafka-list')
+  if (!list) {
+    list = []
+  }
+  list.push(kafka)
+  conf.set('kafka-list', list)
+}
+
+// CONFIG OPTIONS SECTION
 
 const CONFIG_BANNER = 'banner-mode'
 const CONFIG_VERBOSE = 'verbose'
@@ -19,77 +71,17 @@ const getDefaultConfig = () => {
   return c
 }
 
-const getKafkaList = () => {
-  return conf.get('kafka-list')
-}
-
-const addKafka = (kafka) => {
-  let list = conf.get('kafka-list')
-  if (!list) {
-    list = []
-  }
-  list.push(kafka)
-  conf.set('kafka-list', list)
-
-}
-
-const getSelected = () => {
-  return conf.get("select")
-}
-
-const setKafka = (kafka) => {
-  conf.set('select.kafka', kafka)
-}
-
-const getKafka = (required = true) => {
-  const k = conf.get('select.kafka')
-  if(!k && required) {
-    display.error('You don\'t have a kafka selected yet.')
-    display.info('Call: kcmd select kafka')
-    process.exit(1)
-  }
-  return k
-}
-
-const getTopic = (required = true) => {
-  const t = conf.get('select.topic')
-  if(!t && required) {
-    display.error('You don\'t have a kafka topic selected yet.')
-    display.info('Call: kcmd select topic')
-    process.exit(1)
-  }
-  return t
-}
-
-const getGroup = (required = true) => {
-  const g = conf.get('select.group')
-  if(!g && required) {
-    display.error('You don\'t have a kafka group selected yet.')
-    display.info('Call: kcmd select group')
-    process.exit(1)
-  }
-  return g
-}
-
-const setTopic = (topic) => {
-  conf.set('select.topic', topic)
-}
-
-const setGroup = (group) => {
-  conf.set('select.group', group)
-}
-
 const getConfig = () => {
-  let c = conf.get("config")
+  let c = conf.get(CONFIG)
   if (!c) {
     c = getDefaultConfig()
-    conf.set("config", c)
+    conf.set(CONFIG, c)
   }
   return c
 }
 
 const setConfig = (c) => {
-  conf.set('config', c)
+  conf.set(CONFIG, c)
 }
 
 const getBooleanConfig = (config) => {

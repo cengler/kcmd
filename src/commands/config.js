@@ -1,15 +1,7 @@
 import config from './../services/config'
-import chalk from 'chalk'
 import inquirer from 'inquirer'
 
-async function showConfig () {
-  const currentConfig = config.getConfig()
-  console.log(
-    chalk.yellowBright(`Config: ${JSON.stringify(currentConfig, null, 2)}`)
-  )
-}
-
-async function updateConfig () {
+function updateConfig () {
   let cs = config.getConfig()
   const qs = config.configValues.map(
     c => ({
@@ -27,8 +19,4 @@ async function updateConfig () {
     })
 }
 
-
-module.exports = {
-  showConfig,
-  updateConfig
-}
+module.exports = updateConfig

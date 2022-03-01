@@ -50,7 +50,7 @@ const consumer = async (brokers, topic, cb) => {
   })
 }
 
-const offsets = async (brokers, topic) => {
+const topicOffsets = async (brokers, topic) => {
   const kafka = k(brokers)
   const admin = kafka.admin()
   await admin.connect()
@@ -65,7 +65,7 @@ const topicMetadata = async (brokers, topic) => {
   await admin.connect()
   const ts = await admin.fetchTopicMetadata({topics: [topic]})
   await admin.disconnect()
-  return ts.topics[0].partitions
+  return _.sortBy(ts.topics[0].partitions, 'partitionId')
 }
 
 const groupOffsets = async (brokers, groupId) => {
@@ -74,7 +74,8 @@ const groupOffsets = async (brokers, groupId) => {
   await admin.connect()
   const ts = await admin.fetchOffsets({groupId})
   await admin.disconnect()
-  return ts
+  const topicPartitionList = _.flatMap(ts , td => td.partitions.map(p => ({topic: td.topic, ...p})))
+  return _.sortBy(topicPartitionList, ['topic', 'partition'])
 }
 
 const groups = async (brokers) => {
@@ -89,7 +90,7 @@ const groups = async (brokers) => {
 module.exports = {
   topics,
   consumer,
-  offsets,
+  topicOffsets,
   groupOffsets,
   groups,
   topicMetadata,

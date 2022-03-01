@@ -1,5 +1,6 @@
 import display from './../util/display'
 import config from '../services/config'
+import configUtils from '../util/configUtils'
 import kafka from "../services/kafka";
 
 function clusters() {
@@ -13,19 +14,19 @@ function clusters() {
 }
 
 function brokers() {
-  const sk = config.getKafka()
+  const sk = configUtils.getKafka()
   kafka.brokers(sk.brokers)
     .then(bs => display.print(bs))
 }
 
 function topics() {
-  const sk = config.getKafka()
+  const sk = configUtils.getKafka()
   kafka.topics(sk.brokers)
     .then(ts => display.print(ts))
 }
 
 function groups() {
-  const sk = config.getKafka()
+  const sk = configUtils.getKafka()
   kafka.groups(sk.brokers)
     .then(gs => display.print(gs))
 }

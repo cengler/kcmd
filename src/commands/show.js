@@ -1,17 +1,20 @@
 import config from './../services/config'
-import chalk from 'chalk'
+import display from './../util/display'
 
 function show() {
-  const kafkaServer = config.getSelected()
-  if (kafkaServer) {
-    console.log(
-      chalk.yellowBright(`Selected: ${JSON.stringify(kafkaServer, null, 2)}`)
-    )
+  // SELECTED
+  const selected = config.getSelected()
+  if (selected) {
+    display.info(`Selected: ${JSON.stringify(selected, null, 2)}`)
   } else {
-    console.log(
-      chalk.red.bold('You don\'t have a kafka yet.')
-    )
+    display.info('Selected: <none>')
   }
+  // CONFIG
+  const currentConfig = config.getConfig()
+  display.info(`Config: ${JSON.stringify(currentConfig, null, 2)}`)
+  // CLUSTERS LIST
+  const kafkaList = config.getKafkaList()
+  display.info(`Clusters: ${JSON.stringify(kafkaList, null, 2)}`)
 }
 
 module.exports = show
