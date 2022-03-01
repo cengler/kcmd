@@ -31,16 +31,14 @@ Options:
   -h, --help            display help for command
 
 Commands:
-  clusters              List all kafka clusters
-  topics                List all topics of selected kafka
-  groups                List all groups of selected kafka
-  show                  Show all selected options
+  ls <type>             List clusters/brokers/topics/groups
+  set <type>            Set a kafka cluster/topic/group
   add <name> <brokers>  Add a kafka server
-  select                Select a kafka server/topic/group
-  consumer              Consume messages of selected topic
-  topic                 Get metadata of topic
   offsets <type>        Get topic/group offsets
-  config                Show current config
-  update-config         Update config
+  lag                   Get lag of selected group
+  consumer              Consume messages of selected topic
+  show                  Show all selected options
+  config                Update config
+  topic                 Get metadata of topic
   help [command]        display help for command
 ```
