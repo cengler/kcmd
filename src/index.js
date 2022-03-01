@@ -9,6 +9,7 @@ import topicMetadata from './commands/topicMetadata'
 import show from './commands/show'
 import consumer from './commands/consumer'
 import offsets from './commands/offsets'
+import lag from './commands/lag'
 import updateConfig from './commands/config'
 import ls from './commands/ls'
 
@@ -35,7 +36,10 @@ program
   .description('Get topic/group offsets')
   .action(offsets)
 
-// TODO se puede hacer lag, cruzando offsets de topic + partition
+program
+  .command('lag')
+  .description('Get lag of selected group')
+  .action(lag)
 
 program
   .command('consumer')
