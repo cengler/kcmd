@@ -1,7 +1,7 @@
 import config from './../services/config'
 import display from './../util/display'
 import _ from 'lodash'
-import { selectOne } from '../util/inquirerUtils'
+import { selectOne, selectOneAuto } from '../util/inquirerUtils'
 import kafka from './../services/kafka'
 
 function setCluster() {
@@ -21,7 +21,7 @@ function setTopic() {
   kafka.topics(sk.brokers)
     .then(ts => {
       const st = config.getTopic()
-      selectOne(ts, st, 'Select topic')
+      selectOneAuto(ts, st, 'Select topic')
         .then(topic => {
           config.setTopic(topic)
         })
@@ -34,7 +34,7 @@ function setGroup() {
     .then(gs => {
       gs = gs.map(t => t.groupId)
       const sg = config.getGroup()
-      selectOne(gs, sg, 'Select group')
+      selectOneAuto(gs, sg, 'Select group')
         .then(group => {
           config.setGroup(group)
         })
