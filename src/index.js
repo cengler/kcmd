@@ -13,6 +13,9 @@ import offsets from './commands/offsets'
 import lag from './commands/lag'
 import updateConfig from './commands/config'
 import ls from './commands/ls'
+import inquirer from 'inquirer'
+import inquirerPrompt from 'inquirer-autocomplete-prompt'
+inquirer.registerPrompt('autocomplete', inquirerPrompt);
 
 program
   .option('-v, --verbose');
