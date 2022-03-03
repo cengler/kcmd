@@ -31,15 +31,16 @@ Options:
   -h, --help            display help for command
 
 Commands:
-  ls <type>                List clusters/brokers/topics/groups
-  set <type>               Set a kafka cluster/topic/group
-  put <name> <brokers>     Add/Replace a kafka cluster by name
-  delete <name> <brokers>  Delete a kafka cluster
-  offsets <type>           Get topic/group offsets
-  lag                      Get lag of selected group
-  consumer                 Consume messages of selected topic
-  show                     Show all selected options
-  config                   Update config
-  topic                    Get metadata of topic
-  help [command]           display help for command
+  ls <type>             List clusters/brokers/topics/groups
+  set <type>            Set a kafka cluster/topic/group
+  put <name> <brokers>  Add/Replace a kafka cluster by name
+  delete <name>         Delete a kafka cluster by name
+  offsets <type>        Get topic/group offsets
+  lag                   Get lag of selected group
+  consumer              Consume messages of selected topic
+  show                  Show all selected options
+  config                Update config
+  topic                 Get metadata of topic
+  help [command]        display help for command
+
 ```

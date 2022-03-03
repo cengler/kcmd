@@ -33,8 +33,8 @@ program
   .action(putCluster)
 
 program
-  .command('delete <name> <brokers>')
-  .description('Delete a kafka cluster')
+  .command('delete <name>')
+  .description('Delete a kafka cluster by name')
   .action(deleteCluster)
 
 program
