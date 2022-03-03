@@ -13,8 +13,8 @@ function show() {
   const currentConfig = config.getConfig()
   display.info(`Config: ${JSON.stringify(currentConfig, null, 2)}`)
   // CLUSTERS LIST
-  const kafkaList = config.getKafkaList()
-  display.info(`Clusters: ${JSON.stringify(kafkaList, null, 2)}`)
+  const clusters = config.getClusters()
+  display.info(`Clusters: ${JSON.stringify(clusters, null, 2)}`)
 }
 
 module.exports = show

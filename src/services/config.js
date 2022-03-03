@@ -1,11 +1,12 @@
 import Conf from 'conf'
 const conf = new Conf()
 
-const SELECT = 'select'
-const KAFKA = 'select.kafka'
-const TOPIC = 'select.topic'
-const GROUP = 'select.group'
-const CONFIG = 'config'
+const SELECT   = 'select'
+const KAFKA    = 'select.kafka'
+const TOPIC    = 'select.topic'
+const GROUP    = 'select.group'
+const CLUSTERS = 'clusters'
+const CONFIG   = 'config'
 
 // SELECT SECTION
 
@@ -38,19 +39,34 @@ function setGroup(group) {
 }
 
 // KAFKA CLUSTERS SECTION
-// FIXME pasar a MAP y convertir a list en el get
 
-const getKafkaList = () => {
-  return conf.get('kafka-list')
+const getClusters = () => {
+  let map = conf.get(CLUSTERS)
+  if(!map) {
+    map = {}
+    conf.set(CLUSTERS, map)
+  }
+  return Object.values(map)
 }
 
-const addKafka = (kafka) => {
-  let list = conf.get('kafka-list')
-  if (!list) {
-    list = []
+const putCluster = (kafka) => {
+  let map = conf.get(CLUSTERS)
+  if(!map) {
+    map = {}
   }
-  list.push(kafka)
-  conf.set('kafka-list', list)
+  const exists = map.hasOwnProperty(kafka.name)
+  map[kafka.name] = kafka
+  conf.set(CLUSTERS, map)
+  return exists ? 'updated' : 'added'
+}
+
+const remCluster = (kafka) => {
+  let map = conf.get(CLUSTERS)
+  if(!map) {
+    map = {}
+  }
+  delete map[kafka.name]
+  conf.set(CLUSTERS, map)
 }
 
 // CONFIG OPTIONS SECTION
@@ -105,8 +121,9 @@ module.exports = {
   setTopic,
   setKafka,
   setGroup,
-  getKafkaList,
-  addKafka,
+  getClusters,
+  remCluster,
+  putCluster,
   getKafka,
   getConfig,
   setConfig,

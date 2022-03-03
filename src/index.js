@@ -3,7 +3,8 @@ import figlet from 'figlet'
 import chalk from 'chalk'
 import config from './services/config'
 import {program} from 'commander'
-import add from './commands/add'
+import putCluster from './commands/putCluster'
+import deleteCluster from './commands/deleteCluster'
 import setter from './commands/set'
 import topicMetadata from './commands/topicMetadata'
 import show from './commands/show'
@@ -27,9 +28,14 @@ program
   .action(setter)
 
 program
-  .command('add <name> <brokers>')
-  .description('Add a kafka server')
-  .action(add)
+  .command('put <name> <brokers>')
+  .description('Add/Replace a kafka cluster by name')
+  .action(putCluster)
+
+program
+  .command('delete <name> <brokers>')
+  .description('Delete a kafka cluster')
+  .action(deleteCluster)
 
 program
   .command('offsets <type>')

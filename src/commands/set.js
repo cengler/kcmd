@@ -5,12 +5,12 @@ import { selectOne } from '../util/inquirerUtils'
 import kafka from './../services/kafka'
 
 function setCluster() {
-  let kafkaList = config.getKafkaList()
+  let clusters = config.getClusters()
   let selectedKafka = config.getKafka()
-  selectOne(kafkaList, selectedKafka, 'Select kafka cluster', 'name')
+  selectOne(clusters, selectedKafka, 'Select kafka cluster', 'name')
     .then(cluster => {
-      const idx = _.findIndex(kafkaList, ['name', cluster]);
-      const kc = kafkaList[idx]
+      const idx = _.findIndex(clusters, ['name', cluster]);
+      const kc = clusters[idx]
       config.setKafka(kc)
       display.success(`Kafka cluster [${kc.name}] has been set successfully!`)
     })

@@ -6,7 +6,6 @@ function consumer () {
   const topic = configUtils.getTopic()
   kafka.consumer(sk.brokers, topic, (message, partition) => {
     console.log(message.value.toString())
-    // TODO ver si agregar config de json pretty
   })
 }
 

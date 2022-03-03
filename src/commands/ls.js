@@ -4,9 +4,9 @@ import configUtils from '../util/configUtils'
 import kafka from "../services/kafka";
 
 function clusters() {
-  const kafkaList = config.getKafkaList()
-  if (kafkaList && kafkaList.length) {
-    display.print(kafkaList)
+  const clusters = config.getClusters()
+  if (clusters && clusters.length) {
+    display.print(clusters)
   } else {
     display.info('You don\'t have a kafka yet.')
     display.info('Call: kcmd add <name> <brokerslist>')
