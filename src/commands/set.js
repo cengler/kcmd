@@ -4,7 +4,17 @@ import _ from 'lodash'
 import { selectOne } from '../util/inquirerUtils'
 import kafka from './../services/kafka'
 
-function setCluster() {
+function setCluster(value) {
+  const c = config.getCluster(value)
+  if (c) {
+    config.setKafka(c)
+    display.success(`Kafka cluster [${kc.name}] has been set successfully!`)
+  } else {
+    display.error(`Kafka cluster [${value}] not found`)
+  }
+}
+
+function selectCluster() {
   let clusters = config.getClusters()
   let selectedKafka = config.getKafka()
   selectOne(clusters, selectedKafka, 'Select kafka cluster', 'name')
@@ -16,7 +26,19 @@ function setCluster() {
     })
 }
 
-function setTopic() {
+function setTopic(value) {
+  const sk = config.getKafka()
+  kafka.topics(sk.brokers)
+    .then(ts => {
+      if (ts.includes(value)) {
+        display.success(`Topic [${value}] has been set successfully!`)
+      } else {
+        display.error(`Topic [${value}] not found in selected kafka`)
+      }
+    })
+}
+
+function selectTopic() {
   const sk = config.getKafka()
   kafka.topics(sk.brokers)
     .then(ts => {
@@ -28,7 +50,7 @@ function setTopic() {
     })
 }
 
-function setGroup() {
+function selectGroup() {
   const sk = config.getKafka()
   kafka.groups(sk.brokers)
     .then(gs => {
@@ -41,16 +63,23 @@ function setGroup() {
     })
 }
 
-function setter(type) {
+function setter(type, value) {
   switch (type) {
     case 'cluster':
-      setCluster()
+      if(value)
+        setCluster(value)
+      else
+        selectCluster()
       break
     case 'topic':
-      setTopic()
+      if(value)
+        setTopic(value)
+      else
+        selectTopic()
       break
     case 'group':
-      setGroup()
+      // TODO gr
+      selectGroup(value)
       break
     default:
       display.error('error: invalid argument \'type\'. Allowed choices are: cluster, topic, group')

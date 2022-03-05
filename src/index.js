@@ -23,7 +23,7 @@ program
   .action(ls)
 
 program
-  .command('set <type>')
+  .command('set <type> [value]')
   .description('Set a kafka cluster/topic/group')
   .action(setter)
 
