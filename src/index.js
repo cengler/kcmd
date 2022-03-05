@@ -16,6 +16,10 @@ import ls from './commands/ls'
 
 program
   .option('-v, --verbose');
+  .option('-t, --topic <topic>')
+  .on('option:topic', function () {
+    process.env.TOPIC = this.opts().topic;
+  });
 
 program
   .command('ls <type>')
