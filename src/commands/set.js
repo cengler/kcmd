@@ -38,6 +38,18 @@ function setTopic(value) {
     })
 }
 
+function setGroup(value) {
+  const sk = config.getKafka()
+  kafka.groups(sk.brokers)
+    .then(gs => {
+      if (gs.includes(value)) {
+        display.success(`Group [${value}] has been set successfully!`)
+      } else {
+        display.error(`Group [${value}] not found in selected kafka`)
+      }
+    })
+}
+
 function selectTopic() {
   const sk = config.getKafka()
   kafka.topics(sk.brokers)
@@ -78,8 +90,10 @@ function setter(type, value) {
         selectTopic()
       break
     case 'group':
-      // TODO gr
-      selectGroup(value)
+      if(value)
+        setGroup(value)
+      else
+        selectGroup()
       break
     default:
       display.error('error: invalid argument \'type\'. Allowed choices are: cluster, topic, group')
