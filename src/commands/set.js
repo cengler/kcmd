@@ -42,7 +42,8 @@ function setGroup(value) {
   const sk = config.getKafka()
   kafka.groups(sk.brokers)
     .then(gs => {
-      if (gs.includes(value)) {
+      const gsn = gs.map(g => g.groupId)
+      if (gsn.includes(value)) {
         display.success(`Group [${value}] has been set successfully!`)
       } else {
         display.error(`Group [${value}] not found in selected kafka`)
