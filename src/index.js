@@ -20,6 +20,8 @@ const packageJson = require('./../package.json');
 inquirer.registerPrompt('autocomplete', inquirerPrompt);
 
 program
+  .name(`kcmd`)
+  .usage(`[global options] command - ${packageJson.version}`)
   .version(packageJson.version, '-v, --version', 'output the current version')
   .option('-t, --topic <topic>', 'override selected topic')
   .on('option:topic', function () {
@@ -91,6 +93,9 @@ if (config.getBooleanConfig(config.CONFIG_BANNER)) {
       figlet.textSync('kcmd', {
         horizontalLayout: 'full',
       })
+    ),
+    chalk.green(
+      `\nVersion: ${packageJson.version}\n`
     )
   )
 }
