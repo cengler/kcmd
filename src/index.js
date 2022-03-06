@@ -6,7 +6,7 @@ import {program} from 'commander'
 import putCluster from './commands/putCluster'
 import deleteCluster from './commands/deleteCluster'
 import setter from './commands/set'
-import topicMetadata from './commands/topicMetadata'
+import metadata from './commands/metadata'
 import show from './commands/show'
 import consumer from './commands/consumer'
 import offsets from './commands/offsets'
@@ -15,18 +15,21 @@ import updateConfig from './commands/config'
 import ls from './commands/ls'
 import inquirer from 'inquirer'
 import inquirerPrompt from 'inquirer-autocomplete-prompt'
+const packageJson = require('./../package.json');
+
 inquirer.registerPrompt('autocomplete', inquirerPrompt);
 
 program
-  .option('-t, --topic <topic>')
+  .version(packageJson.version, '-v, --version', 'output the current version')
+  .option('-t, --topic <topic>', 'override selected topic')
   .on('option:topic', function () {
     process.env.TOPIC = this.opts().topic
   })
-  .option('-g, --group <group>')
+  .option('-g, --group <group>', 'override selected group')
   .on('option:group', function () {
     process.env.GROUP = this.opts().group
   })
-  .option('-c, --cluster <name>')
+  .option('-c, --cluster <name>', 'override selected cluster by name')
   .on('option:cluster', function () {
     process.env.CLUSTER = this.opts().cluster
   })
@@ -68,8 +71,8 @@ program
   .action(consumer)
 
 program
-  .command('show')
-  .description('Show all selected options')
+  .command('show [section]')
+  .description('Show selected options clusters/config/selected')
   .action(show)
 
 program
@@ -78,9 +81,9 @@ program
   .action(updateConfig)
 
 program
-  .command('topic') // TODO command name?
-  .description('Get metadata of topic')
-  .action(topicMetadata)
+  .command('metadata <type>')
+  .description('Get metadata of topic/..')
+  .action(metadata)
 
 if (config.getBooleanConfig(config.CONFIG_BANNER)) {
   console.log(
