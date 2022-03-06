@@ -25,7 +25,7 @@ This will install `kcmd` globally so that it may be run from the command line an
  |   <  | (__  | | | | | | | (_| |
  |_|\_\  \___| |_| |_| |_|  \__,_|
                                    
-Usage: kcmd [global options] command - 1.0.5.1
+Usage: kcmd [global options] command - 1.0.6
 
 Options:
   -v, --version         output the current version
