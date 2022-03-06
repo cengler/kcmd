@@ -12,10 +12,13 @@ function convertToTSV(arr) {
   }).join('\n')
 }
 
-const print = (data) => {
+const print = (data, columns) => {
   const d = config.getStringConfig(config.CONFIG_DISPLAY)
   if (d === 'table') {
-    console.table(data)
+    if(columns)
+      console.table(data, columns)
+    else
+      console.table(data)
   } else if (d === 'tsv') {
     console.log(convertToTSV(data))
   } else {

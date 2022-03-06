@@ -1,4 +1,4 @@
-import {CompressionCodecs, CompressionTypes, Kafka, logLevel} from "kafkajs"
+import {AssignerProtocol, CompressionCodecs, CompressionTypes, Kafka, logLevel} from "kafkajs"
 import {SnappyCodec} from 'kafkajs-snappy'
 import {v4} from 'uuid'
 import config from './config'
@@ -68,6 +68,34 @@ const topicMetadata = async (brokers, topic) => {
   return _.sortBy(ts.topics[0].partitions, 'partitionId')
 }
 
+const decodeMA = (memberAssignment) => {
+  const assignment = AssignerProtocol.MemberAssignment.decode(memberAssignment).assignment
+  return Object.keys(assignment)[0] + ':' + assignment[Object.keys(assignment)[0]]
+}
+
+const decodeMM = (memberMetadata) => {
+  return AssignerProtocol.MemberMetadata.decode(memberMetadata).topics[0]
+}
+
+const groupMetadata = async (brokers, group) => {
+  const kafka = k(brokers)
+  const admin = kafka.admin()
+  await admin.connect()
+  const gs = await admin.describeGroups([group])
+      .then(({groups}) => {
+        return groups.map(g => {
+          g.members = g.members.map(m => {
+            m.memberMetadata = decodeMM(m.memberMetadata)
+            m.memberAssignment = decodeMA(m.memberAssignment)
+            return m
+          })
+          return g
+        })
+      })
+  await admin.disconnect()
+  return gs.length > 0 ? gs[0] : null
+}
+
 const groupOffsets = async (brokers, groupId) => {
   const kafka = k(brokers)
   const admin = kafka.admin()
@@ -94,5 +122,6 @@ module.exports = {
   groupOffsets,
   groups,
   topicMetadata,
-  brokers
+  brokers,
+  groupMetadata
 }

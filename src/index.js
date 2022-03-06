@@ -84,7 +84,7 @@ program
 
 program
   .command('metadata <type>')
-  .description('Get metadata of topic/..')
+  .description('Get metadata of topic/groups')
   .action(metadata)
 
 if (config.getBooleanConfig(config.CONFIG_BANNER)) {
