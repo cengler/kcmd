@@ -14,16 +14,16 @@ const getSelected = () => {
   return conf.get(SELECT)
 }
 
-function getKafka() {
-  return conf.get(KAFKA)
+function getKafka() { // TODO NAME
+  return process.env.CLUSTER ? getCluster(process.env.CLUSTER) : conf.get(KAFKA)
 }
 
 function getTopic() {
-  return conf.get(TOPIC)
+  return process.env.TOPIC ? process.env.TOPIC : conf.get(TOPIC)
 }
 
 function getGroup() {
-  return conf.get(GROUP)
+  return process.env.GROUP ? process.env.GROUP : conf.get(GROUP)
 }
 
 function setKafka(kafka) {
@@ -47,6 +47,14 @@ const getClusters = () => {
     conf.set(CLUSTERS, map)
   }
   return Object.values(map)
+}
+
+const getCluster = (name) => {
+  let map = conf.get(CLUSTERS)
+  if(!map) {
+    map = {}
+  }
+  return map[name]
 }
 
 const putCluster = (kafka) => {
@@ -122,6 +130,7 @@ module.exports = {
   setKafka,
   setGroup,
   getClusters,
+  getCluster,
   remCluster,
   putCluster,
   getKafka,

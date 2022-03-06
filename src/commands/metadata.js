@@ -9,4 +9,15 @@ async function topicMetadata() {
     .then(tm => display.print(tm))
 }
 
-module.exports = topicMetadata
+function metadata(type) {
+  switch (type) {
+    case 'topic':
+      topicMetadata()
+      break
+    default:
+      display.error('error: invalid argument \'type\'. Allowed choices are: topic')
+  }
+}
+
+
+module.exports = metadata
