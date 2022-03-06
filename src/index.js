@@ -9,6 +9,7 @@ import setter from './commands/set'
 import metadata from './commands/metadata'
 import show from './commands/show'
 import consumer from './commands/consumer'
+import consumers from './commands/consumers'
 import offsets from './commands/offsets'
 import lag from './commands/lag'
 import updateConfig from './commands/config'
@@ -71,6 +72,11 @@ program
   .command('consumer')
   .description('Consume messages of selected topic')
   .action(consumer)
+
+program
+  .command('consumers')
+  .description('Find topics for each consumer group')
+  .action(consumers)
 
 program
   .command('show [section]')
