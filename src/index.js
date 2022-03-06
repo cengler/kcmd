@@ -15,11 +15,19 @@ import updateConfig from './commands/config'
 import ls from './commands/ls'
 
 program
-  .option('-v, --verbose');
   .option('-t, --topic <topic>')
   .on('option:topic', function () {
-    process.env.TOPIC = this.opts().topic;
-  });
+    process.env.TOPIC = this.opts().topic
+  })
+  .option('-g, --group <group>')
+  .on('option:group', function () {
+    process.env.GROUP = this.opts().group
+  })
+  .option('-c, --cluster <name>')
+  .on('option:cluster', function () {
+    process.env.CLUSTER = this.opts().cluster
+  })
+
 
 program
   .command('ls <type>')

@@ -14,8 +14,8 @@ const getSelected = () => {
   return conf.get(SELECT)
 }
 
-function getKafka() {
-  return conf.get(KAFKA)
+function getKafka() { // TODO NAME
+  return process.env.CLUSTER ? getCluster(process.env.CLUSTER) : conf.get(KAFKA)
 }
 
 function getTopic() {
@@ -23,7 +23,7 @@ function getTopic() {
 }
 
 function getGroup() {
-  return conf.get(GROUP)
+  return process.env.GROUP ? process.env.GROUP : conf.get(GROUP)
 }
 
 function setKafka(kafka) {
