@@ -8,7 +8,7 @@ function setCluster(value) {
   const c = config.getCluster(value)
   if (c) {
     config.setKafka(c)
-    display.success(`Kafka cluster [${kc.name}] has been set successfully!`)
+    display.success(`Kafka cluster [${c.name}] has been set successfully!`)
   } else {
     display.error(`Kafka cluster [${value}] not found`)
   }
