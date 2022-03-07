@@ -9,6 +9,10 @@
     "build": "babel ./src --out-dir ./dist --source-maps",
     "start": "npm run build && node dist/index.js"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/cengler/kcmd.git"
+  },
   "author": "Christian Engler",
   "dependencies": {
     "chalk": "^4.1.0",
