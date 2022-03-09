@@ -3,6 +3,8 @@ import kafka from './../services/kafka'
 import display from './../util/display'
 import _ from 'lodash'
 
+const sortObject = o => Object.keys(o).sort().reduce((r, k) => (r[k] = o[k], r), {})
+
 async function consumers () {
   display.info('List of all consumers by topic')
   const sk = configUtils.getKafka()
@@ -19,12 +21,12 @@ async function consumers () {
   const res = {}
   groupsTopics.forEach(gt => {
     gt.topics.forEach(t => {
-      if(!Object.hasOwnProperty(t))
+      if(!res.hasOwnProperty(t))
         res[t] = []
       res[t].push(gt.groupId)
     })
   })
-  display.print(res)
+  display.print(sortObject(res))
 }
 
 module.exports = consumers
