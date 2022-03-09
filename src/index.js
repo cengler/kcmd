@@ -99,9 +99,6 @@ if (config.getBooleanConfig(config.CONFIG_BANNER)) {
       figlet.textSync('kcmd', {
         horizontalLayout: 'full',
       })
-    ),
-    chalk.green(
-      `\nVersion: ${packageJson.version}\n`
     )
   )
 }

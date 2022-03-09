@@ -2,6 +2,8 @@
 
 ![tests](https://github.com/cengler/k/actions/workflows/test.yml/badge.svg)
 ![audit](https://github.com/cengler/k/actions/workflows/audit.yml/badge.svg)
+![publish](https://github.com/cengler/kcmd/actions/workflows/publish.yml/badge.svg)
+
 
 ## Installation:
 
@@ -25,7 +27,7 @@ This will install `kcmd` globally so that it may be run from the command line an
  |   <  | (__  | | | | | | | (_| |
  |_|\_\  \___| |_| |_| |_|  \__,_|
                                    
-Usage: kcmd [global options] command - 1.0.6
+Usage: kcmd [global options] command
 
 Options:
   -v, --version         output the current version
