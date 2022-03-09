@@ -14,6 +14,8 @@ const k = (brokers) => {
   return new Kafka({
     clientId,
     brokers: brokers.split(','),
+    connectionTimeout: 10000,
+    requestTimeout: 30000,
     logLevel: verbose ? logLevel.INFO : logLevel.ERROR,
     logCreator: logCreator
   })

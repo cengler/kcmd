@@ -41,12 +41,11 @@ Commands:
   set <type> [value]    Set a kafka cluster/topic/group
   put <name> <brokers>  Add/Replace a kafka cluster by name
   delete <name>         Delete a kafka cluster by name
-  offsets <type>        Get topic/group offsets
-  lag                   Get lag of selected group
+  offsets <type>        Get topic/group offsets and lag
   consumer              Consume messages of selected topic
+  consumers             Find topics for each consumer group
   show [section]        Show selected options clusters/config/selected
   config                Update config
-  metadata <type>       Get metadata of topic/..
+  metadata <type>       Get metadata of topic/groups
   help [command]        display help for command
-
 ```
