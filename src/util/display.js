@@ -1,6 +1,6 @@
 // display according configuration
 import config from './../services/config'
-import chalk from "chalk";
+import chalk from 'chalk'
 
 function convertToTSV(arr) {
   if (arr.length === 0) return ''

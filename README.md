@@ -37,13 +37,12 @@ Options:
   -h, --help            display help for command
 
 Commands:
-  ls <type>             List clusters/brokers/topics/groups
+  ls <type>             List clusters/brokers/topics/groups/groupsByTopic/topicsByGroup
   set <type> [value]    Set a kafka cluster/topic/group
   put <name> <brokers>  Add/Replace a kafka cluster by name
   delete <name>         Delete a kafka cluster by name
   offsets <type>        Get topic/group offsets and lag
   consumer              Consume messages of selected topic
-  consumers             Find topics for each consumer group
   show [section]        Show selected options clusters/config/selected
   config                Update config
   metadata <type>       Get metadata of topic/groups

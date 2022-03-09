@@ -1,6 +1,6 @@
 import kafka from './../services/kafka'
 import display from './../util/display'
-import configUtils from "../util/configUtils";
+import configUtils from '../util/configUtils'
 
 async function topicMetadata() {
   const sk = configUtils.getKafka()

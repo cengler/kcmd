@@ -1,4 +1,4 @@
-import {AssignerProtocol, CompressionCodecs, CompressionTypes, Kafka, logLevel} from "kafkajs"
+import {AssignerProtocol, CompressionCodecs, CompressionTypes, Kafka, logLevel} from 'kafkajs'
 import {SnappyCodec} from 'kafkajs-snappy'
 import {v4} from 'uuid'
 import config from './config'
@@ -7,7 +7,7 @@ import _ from 'lodash'
 
 CompressionCodecs[CompressionTypes.Snappy] = SnappyCodec
 
-const clientId = 'my-cli';
+const clientId = 'my-cli'
 
 const k = (brokers) => {
   const verbose = config.getBooleanConfig(config.CONFIG_VERBOSE)
@@ -127,6 +127,18 @@ const groups = async (brokers) => {
   return _.sortBy(ts, 'groupId')
 }
 
+const topicsByGroup = async (brokers) => {
+  const gs = await groups(brokers)
+  return await Promise.all(gs
+    .map(group => {
+      return groupMetadata(brokers, group.groupId)
+        .then(gm => ({
+          topics: _.uniq(gm.members.map(m => m.memberMetadata)),
+          groupId: group.groupId
+        }))
+    }))
+}
+
 module.exports = {
   topics,
   consumer,
@@ -135,5 +147,6 @@ module.exports = {
   groups,
   topicMetadata,
   brokers,
-  groupMetadata
+  groupMetadata,
+  topicsByGroup
 }

@@ -1,7 +1,8 @@
 import display from './../util/display'
 import config from '../services/config'
 import configUtils from '../util/configUtils'
-import kafka from "../services/kafka";
+import kafka from '../services/kafka'
+import _ from 'lodash'
 
 function clusters() {
   const clusters = config.getClusters()
@@ -31,6 +32,24 @@ function groups() {
     .then(gs => display.print(gs))
 }
 
+function topicsByGroup() {
+  const sk = configUtils.getKafka()
+  kafka.topicsByGroup(sk.brokers)
+    .then(gst => {
+      const list = gst.flatMap(g => g.topics.map(t => ({groupId: g.groupId, topic:t})))
+      display.print(list)
+    })
+}
+
+async function groupsByTopic () {
+  const sk = configUtils.getKafka()
+  kafka.topicsByGroup(sk.brokers)
+    .then(gst => {
+      const list = gst.flatMap(g => g.topics.map(t => ({topic:t, groupId: g.groupId})))
+      display.print(_.sortBy(list, 'topic'))
+    })
+}
+
 function ls(type) {
   switch (type) {
     case 'clusters':
@@ -45,8 +64,15 @@ function ls(type) {
     case 'groups':
       groups()
       break
+    case 'topicsByGroup':
+      topicsByGroup()
+      break
+    case 'groupsByTopic':
+      groupsByTopic()
+      break
     default:
-      display.error('error: invalid argument \'type\'. Allowed choices are: clusters, brokers, topics, groups')
+      display.error('error: invalid argument \'type\'. Allowed choices are: clusters, ' +
+        'brokers, topics, groups, groupsByTopic, topicsByGroup')
   }
 }
 

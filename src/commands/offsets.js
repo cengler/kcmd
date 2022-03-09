@@ -1,8 +1,7 @@
-import config from './../services/config'
 import kafka from './../services/kafka'
 import display from './../util/display'
 import configUtils from '../util/configUtils'
-import _ from "lodash";
+import _ from 'lodash'
 
 function offsetsTopic() {
   const sk = configUtils.getKafka()
@@ -21,7 +20,7 @@ async function offsetsGroup() {
       topics.map(topic => kafka.topicOffsets(sk.brokers, topic)
         .then(tos => tos.map(to => ({topic, ...to}))))
     ))
-  const gOffsetsMap = new Map(gOffsets.map(i => [`${i.topic}-${i.partition}`, i.offset]));
+  const gOffsetsMap = new Map(gOffsets.map(i => [`${i.topic}-${i.partition}`, i.offset]))
   const lags = tOffsets.map(({topic, partition, offset}) => {
     const topicOffset = Number.parseInt(offset)
     const groupOffset = Number.parseInt(gOffsetsMap.get(`${topic}-${partition}`))

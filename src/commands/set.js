@@ -19,7 +19,7 @@ function selectCluster() {
   let selectedKafka = config.getKafka()
   selectOne(clusters, selectedKafka, 'Select kafka cluster', 'name')
     .then(cluster => {
-      const idx = _.findIndex(clusters, ['name', cluster]);
+      const idx = _.findIndex(clusters, ['name', cluster])
       const kc = clusters[idx]
       config.setKafka(kc)
       display.success(`Kafka cluster [${kc.name}] has been set successfully!`)

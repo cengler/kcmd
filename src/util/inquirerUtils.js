@@ -21,10 +21,10 @@ function searchInArray (arrayData) {
   return (answers, input = '') =>
    new Promise((resolve) => {
      setTimeout(() => {
-       const results = fuzzy.filter(input, arrayData).map((el) => el.original);
-       results.splice(5, 0, new inquirer.Separator());
-       results.push(new inquirer.Separator());
-       resolve(results);
+       const results = fuzzy.filter(input, arrayData).map((el) => el.original)
+       results.splice(5, 0, new inquirer.Separator())
+       results.push(new inquirer.Separator())
+       resolve(results)
      }, Math.random() * 470 + 30)
    });
 }

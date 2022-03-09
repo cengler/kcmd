@@ -9,15 +9,14 @@ import setter from './commands/set'
 import metadata from './commands/metadata'
 import show from './commands/show'
 import consumer from './commands/consumer'
-import consumers from './commands/consumers'
 import offsets from './commands/offsets'
 import updateConfig from './commands/config'
 import ls from './commands/ls'
 import inquirer from 'inquirer'
 import inquirerPrompt from 'inquirer-autocomplete-prompt'
-const packageJson = require('./../package.json');
+const packageJson = require('./../package.json')
 
-inquirer.registerPrompt('autocomplete', inquirerPrompt);
+inquirer.registerPrompt('autocomplete', inquirerPrompt)
 
 program
   .name(`kcmd`)
@@ -39,7 +38,7 @@ program
 
 program
   .command('ls <type>')
-  .description('List clusters/brokers/topics/groups')
+  .description('List clusters/brokers/topics/groups/groupsByTopic/topicsByGroup')
   .action(ls)
 
 program
@@ -66,11 +65,6 @@ program
   .command('consumer')
   .description('Consume messages of selected topic')
   .action(consumer)
-
-program
-  .command('consumers')
-  .description('Find topics for each consumer group')
-  .action(consumers)
 
 program
   .command('show [section]')
