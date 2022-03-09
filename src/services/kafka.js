@@ -68,13 +68,23 @@ const topicMetadata = async (brokers, topic) => {
   return _.sortBy(ts.topics[0].partitions, 'partitionId')
 }
 
-const decodeMA = (memberAssignment) => {
-  const assignment = AssignerProtocol.MemberAssignment.decode(memberAssignment).assignment
-  return Object.keys(assignment)[0] + ':' + assignment[Object.keys(assignment)[0]]
+const decodeMA = (group, memberAssignment) => {
+  try {
+    const assignment = AssignerProtocol.MemberAssignment.decode(memberAssignment).assignment
+    return Object.keys(assignment)[0] + ':' + assignment[Object.keys(assignment)[0]]
+  } catch (e) {
+    console.error(group, e)
+    return '<no>'
+  }
 }
 
-const decodeMM = (memberMetadata) => {
-  return AssignerProtocol.MemberMetadata.decode(memberMetadata).topics[0]
+const decodeMM = (group, memberMetadata) => {
+  try {
+    return AssignerProtocol.MemberMetadata.decode(memberMetadata).topics[0]
+  } catch (e) {
+    console.error(group, e)
+    return '<no>'
+  }
 }
 
 const groupMetadata = async (brokers, group) => {
@@ -85,8 +95,8 @@ const groupMetadata = async (brokers, group) => {
       .then(({groups}) => {
         return groups.map(g => {
           g.members = g.members.map(m => {
-            m.memberMetadata = decodeMM(m.memberMetadata)
-            m.memberAssignment = decodeMA(m.memberAssignment)
+            m.memberMetadata = decodeMM(group, m.memberMetadata)
+            m.memberAssignment = decodeMA(group, m.memberAssignment)
             return m
           })
           return g
