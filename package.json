@@ -1,12 +1,13 @@
 {
   "name": "kcmd",
-  "version": "1.0.13",
+  "version": "1.0.14",
   "description": "",
   "main": "dist/index.js",
   "scripts": {
     "clean": "rm -Rf ./dist",
     "test": "mocha",
     "build": "babel ./src --out-dir ./dist --source-maps",
+    "prepublish": "babel ./src --out-dir ./dist --source-maps",
     "start": "npm run build && node dist/index.js"
   },
   "repository": {
