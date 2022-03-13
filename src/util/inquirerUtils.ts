@@ -1,9 +1,10 @@
 import _ from 'lodash'
 import inquirer from 'inquirer'
+import {DistinctQuestion} from 'inquirer'
 import fuzzy from 'fuzzy'
 
-const selectOne = (choices, startElement, message, field = null) => {
-  const question = {
+const selectOne = (choices: any[], startElement: any, message: string, field: string | undefined = undefined) => {
+  const question: DistinctQuestion = {
     type: 'list',
     name: 'value',
     message,
@@ -17,8 +18,8 @@ const selectOne = (choices, startElement, message, field = null) => {
   return inquirer.prompt([question]).then(a => a.value)
 }
 
-function searchInArray (arrayData) {
-  return (answers, input = '') =>
+function searchInArray (arrayData: any[]) {
+  return (answers: any[], input = '') =>
    new Promise((resolve) => {
      setTimeout(() => {
        const results = fuzzy.filter(input, arrayData).map((el) => el.original)
@@ -29,8 +30,8 @@ function searchInArray (arrayData) {
    });
 }
 
-const selectOneAuto = (choices, startElement, message, field = null) => {
-  const question = {
+const selectOneAuto = (choices: any[], startElement: any, message: string , field: string | undefined = undefined) => {
+  const question: any = {
     type: 'autocomplete',
     name: 'value',
     message,
@@ -46,7 +47,7 @@ const selectOneAuto = (choices, startElement, message, field = null) => {
   return inquirer.prompt([question]).then(a => a.value)
 }
 
-module.exports = {
+export default {
   selectOne,
   selectOneAuto
 }
