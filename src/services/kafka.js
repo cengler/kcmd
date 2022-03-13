@@ -2,7 +2,7 @@ import {AssignerProtocol, CompressionCodecs, CompressionTypes, Kafka, logLevel} 
 import {SnappyCodec} from 'kafkajs-snappy'
 import {v4} from 'uuid'
 import config from './config'
-import {logCreator} from '../util/display'
+import display from '../util/display'
 import _ from 'lodash'
 
 CompressionCodecs[CompressionTypes.Snappy] = SnappyCodec
@@ -17,7 +17,7 @@ const k = (brokers) => {
     connectionTimeout: 10000,
     requestTimeout: 30000,
     logLevel: verbose ? logLevel.INFO : logLevel.ERROR,
-    logCreator: logCreator
+    logCreator: display.logCreator
   })
 }
 
@@ -75,7 +75,7 @@ const decodeMA = (group, memberAssignment) => {
     const assignment = AssignerProtocol.MemberAssignment.decode(memberAssignment).assignment
     return Object.keys(assignment)[0] + ':' + assignment[Object.keys(assignment)[0]]
   } catch (e) {
-    console.error(group, e)
+    display.error(`Error reading memberAssignment of group ${group}`, e)
     return '<no>'
   }
 }
@@ -84,7 +84,7 @@ const decodeMM = (group, memberMetadata) => {
   try {
     return AssignerProtocol.MemberMetadata.decode(memberMetadata).topics[0]
   } catch (e) {
-    console.error(group, e)
+    display.error(`Error reading memberMetadata of group ${group}`, e)
     return '<no>'
   }
 }

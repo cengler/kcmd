@@ -35,8 +35,17 @@ const logCreator = logLevel => ({namespace, label, log}) => {
   }
 }
 
-const error = (message) => {
-  console.log(chalk.red.bold(message))
+const error = (message, e) => {
+  if(e) {
+    if (config.getBooleanConfig(config.CONFIG_VERBOSE)) {
+      console.log(chalk.red.bold(message, e))
+    } else {
+      console.log(chalk.red.bold(message, 'See more with -v'))
+    }
+  } else {
+    console.log(chalk.red.bold(message))
+  }
+
 }
 
 const info = (message) => {
@@ -47,10 +56,15 @@ const success = (message) => {
   console.log(chalk.green.bold(message))
 }
 
+const debug = (message) => {
+  console.log(chalk.rgb(255, 165, 0).bold(message))
+}
+
 module.exports = {
   print,
   logCreator,
   error,
+  debug,
   info,
   success
 }
