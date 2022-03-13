@@ -1,8 +1,8 @@
 // display according configuration
-import config from './../services/config'
+import config, {DisplayType} from '../services/config'
 import chalk from 'chalk'
 
-function convertToTSV(arr) {
+function convertToTSV(arr: Array<any>): string {
   if (arr.length === 0) return ''
   else if (typeof arr[0] === 'string') return arr.join('\n')
   
@@ -12,32 +12,26 @@ function convertToTSV(arr) {
   }).join('\n')
 }
 
-const print = (data, columns) => {
-  const d = config.getStringConfig(config.CONFIG_DISPLAY)
-  if (d === 'table') {
+const print = (data: any, columns: string[] | undefined) => {
+  const d: DisplayType = config.getConfig().config.display
+  if (d === DisplayType.table) {
     if(columns)
       console.table(data, columns)
     else
       console.table(data)
-  } else if (d === 'tsv') {
+  } else if (d === DisplayType.tsv) {
     console.log(convertToTSV(data))
   } else {
-    data.forEach(r => console.log(r))
+    //data.forEach(r => console.log(r))
+    // TODO ver diferencias array o no
+    // TODO ver json print
+    console.log(data)
   }
 }
 
-const logCreator = logLevel => ({namespace, label, log}) => {
-  const {timestamp, logger, message, ...others} = log
-  if (label === 'ERROR') {
-    error(`${label} [${namespace}] ${message} ${JSON.stringify(others)}`)
-  } else {
-    info(`${label} [${namespace}] ${message} ${JSON.stringify(others)}`)
-  }
-}
-
-const error = (message, e) => {
+const error = (message: string, e: any | undefined = undefined) => {
   if(e) {
-    if (config.getBooleanConfig(config.CONFIG_VERBOSE)) {
+    if (config.getConfig().config.verbose) {
       console.log(chalk.red.bold(message, e))
     } else {
       console.log(chalk.red.bold(message, 'See more with -v'))
@@ -45,26 +39,30 @@ const error = (message, e) => {
   } else {
     console.log(chalk.red.bold(message))
   }
-
 }
 
-const info = (message) => {
+const info = (message: string) => {
   console.log(chalk.blue.bold(message))
 }
 
-const success = (message) => {
+const success = (message: string) => {
   console.log(chalk.green.bold(message))
 }
 
-const debug = (message) => {
+const debug = (message: string) => {
   console.log(chalk.rgb(255, 165, 0).bold(message))
 }
 
-module.exports = {
+const raw = (message: string) => {
+  console.log(message)
+}
+
+export default {
   print,
-  logCreator,
+  //logCreator,
   error,
   debug,
   info,
+  raw,
   success
 }
