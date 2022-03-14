@@ -12,7 +12,7 @@ function convertToTSV(arr: Array<any>): string {
   }).join('\n')
 }
 
-const print = (data: any, columns: string[] | undefined) => {
+const print = (data: any, columns: string[] | undefined = undefined) => {
   const d: DisplayType = config.getConfig().config.display
   if (d === DisplayType.table) {
     if(columns)

@@ -5,6 +5,7 @@
 import {program} from 'commander'
 import show from './commands/show'
 import set from './commands/set'
+import ls from './commands/ls'
 import putCluster from './commands/putCluster'
 import inquirer from 'inquirer'
 import inquirerPrompt from 'inquirer-autocomplete-prompt'
@@ -30,13 +31,12 @@ program
   .on('option:cluster', function () {
     process.env.CLUSTER = this.opts().cluster
   })
-
+*/
 
 program
   .command('ls <type>')
   .description('List clusters/brokers/topics/groups/groupsByTopic/topicsByGroup')
   .action(ls)
-*/
 
 program
   .command('set <type> [value]')
