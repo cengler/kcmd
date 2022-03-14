@@ -126,6 +126,13 @@ const putCluster = (kafka: KafkaCluster): boolean => {
   return added
 }
 
+const deleteCluster = (name: string): boolean => {
+  let c: AllConfig = getConfig()
+  const deleted = c.clusters.delete(name)
+  setConfig(c)
+  return deleted
+}
+
 const remCluster = (name: string) => {
   let c: AllConfig = getConfig()
   c.clusters.delete(name)
@@ -149,5 +156,6 @@ export default {
   getSelectedGroup,
   getSelectedTopic,
   putCluster,
-  remCluster
+  remCluster,
+  deleteCluster
 }

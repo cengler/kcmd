@@ -20,13 +20,13 @@ async function groupMetadata() {
         clientId: m.clientId,
         clientHost: m.clientHost,
         memberAssignment: m.memberAssignment,
-        memberMetadata: m.memberMetadata
+        memberMetadata: m.topic
       }))
       display.print(dm)
     })
 }
 
-function metadata(type) {
+function metadata(type: string) {
   switch (type) {
     case 'topic':
       topicMetadata()
@@ -39,5 +39,4 @@ function metadata(type) {
   }
 }
 
-
-module.exports = metadata
+export default metadata

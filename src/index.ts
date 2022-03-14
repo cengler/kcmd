@@ -6,6 +6,9 @@ import {program} from 'commander'
 import show from './commands/show'
 import set from './commands/set'
 import ls from './commands/ls'
+import consumer from './commands/consumer'
+import deleteCluster from './commands/deleteCluster'
+import metadata from './commands/metadata'
 import putCluster from './commands/putCluster'
 import inquirer from 'inquirer'
 import inquirerPrompt from 'inquirer-autocomplete-prompt'
@@ -48,22 +51,23 @@ program
   .description('Add/Replace a kafka cluster by name')
   .action(putCluster)
 
-/*
 program
   .command('delete <name>')
   .description('Delete a kafka cluster by name')
   .action(deleteCluster)
 
+/*
 program
   .command('offsets <type>')
   .description('Get topic/group offsets and lag')
   .action(offsets)
+*/
 
 program
   .command('consumer')
   .description('Consume messages of selected topic')
   .action(consumer)
-*/
+
 program
   .command('show [section]')
   .description('Show selected options clusters/config/selected')
@@ -74,12 +78,14 @@ program
   .command('config')
   .description('Update config')
   .action(updateConfig)
+*/
 
 program
   .command('metadata <type>')
   .description('Get metadata of topic/groups')
   .action(metadata)
 
+/*
 if (config.getBooleanConfig(config.CONFIG_BANNER)) {
   console.log(
     chalk.green(
