@@ -1,33 +1,34 @@
 import config from './../services/config'
+import configUtils from './../util/configUtils'
 import display from './../util/display'
 import _ from 'lodash'
-import { selectOne, selectOneAuto } from '../util/inquirerUtils'
+import inquirerUtils from '../util/inquirerUtils'
 import kafka from './../services/kafka'
 
-function setCluster(value) {
-  const c = config.getCluster(value)
+function setCluster(name: string) {
+  const c = config.getClusterByName(name)
   if (c) {
-    config.setKafka(c)
+    config.setSelectedCluster(c)
     display.success(`Kafka cluster [${c.name}] has been set successfully!`)
   } else {
-    display.error(`Kafka cluster [${value}] not found`)
+    display.error(`Kafka cluster [${name}] not found`)
   }
 }
 
 function selectCluster() {
   let clusters = config.getClusters()
-  let selectedKafka = config.getKafka()
-  selectOne(clusters, selectedKafka, 'Select kafka cluster', 'name')
+  let selectedKafka = config.getSelectedCluster()
+    inquirerUtils.selectOne(clusters, selectedKafka, 'Select kafka cluster', 'name')
     .then(cluster => {
       const idx = _.findIndex(clusters, ['name', cluster])
       const kc = clusters[idx]
-      config.setKafka(kc)
+      config.setSelectedCluster(kc)
       display.success(`Kafka cluster [${kc.name}] has been set successfully!`)
     })
 }
 
-function setTopic(value) {
-  const sk = config.getKafka()
+function setTopic(value: string) {
+  const sk = configUtils.getKafka()
   kafka.topics(sk.brokers)
     .then(ts => {
       if (ts.includes(value)) {
@@ -38,8 +39,8 @@ function setTopic(value) {
     })
 }
 
-function setGroup(value) {
-  const sk = config.getKafka()
+function setGroup(value: string) {
+  const sk = configUtils.getKafka()
   kafka.groups(sk.brokers)
     .then(gs => {
       const gsn = gs.map(g => g.groupId)
@@ -52,31 +53,33 @@ function setGroup(value) {
 }
 
 function selectTopic() {
-  const sk = config.getKafka()
+  const sk = configUtils.getKafka()
   kafka.topics(sk.brokers)
     .then(ts => {
-      const st = config.getTopic()
-      selectOneAuto(ts, st, 'Select topic')
+      const st = config.getSelectedTopic()
+        inquirerUtils.selectOneAuto(ts, st, 'Select topic')
         .then(topic => {
-          config.setTopic(topic)
+          config.setSelectedTopic(topic)
+          display.success(`Topic [${topic}] has been set successfully!`)
         })
     })
 }
 
 function selectGroup() {
-  const sk = config.getKafka()
+  const sk = configUtils.getKafka()
   kafka.groups(sk.brokers)
     .then(gs => {
-      gs = gs.map(t => t.groupId)
-      const sg = config.getGroup()
-      selectOneAuto(gs, sg, 'Select group')
+      const groups: string[] =  gs.map(t => t.groupId)
+      const sg = config.getSelectedGroup()
+        inquirerUtils.selectOneAuto(groups, sg, 'Select group')
         .then(group => {
-          config.setGroup(group)
+          config.setSelectedGroup(group)
+          display.success(`Group [${group}] has been set successfully!`)
         })
     })
 }
 
-function setter(type, value) {
+function set(type: string, value: string | undefined) {
   switch (type) {
     case 'cluster':
       if(value)
@@ -101,4 +104,4 @@ function setter(type, value) {
   }
 }
 
-module.exports = setter
+export default set

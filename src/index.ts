@@ -1,17 +1,11 @@
 #! /usr/bin/env node
-import figlet from 'figlet'
-import chalk from 'chalk'
-import config from './services/config'
+//import figlet from 'figlet'
+//import chalk from 'chalk'
+//import config from './services/config'
 import {program} from 'commander'
-import putCluster from './commands/putCluster'
-import deleteCluster from './commands/deleteCluster'
-import setter from './commands/set'
-import metadata from './commands/metadata'
 import show from './commands/show'
-import consumer from './commands/consumer'
-import offsets from './commands/offsets'
-import updateConfig from './commands/config'
-import ls from './commands/ls'
+import set from './commands/set'
+import putCluster from './commands/putCluster'
 import inquirer from 'inquirer'
 import inquirerPrompt from 'inquirer-autocomplete-prompt'
 const packageJson = require('./../package.json')
@@ -23,6 +17,8 @@ program
   .usage(`[global options] command - ${packageJson.version}`)
   .version(packageJson.version, '-v, --version', 'output the current version')
   .option('-t, --topic <topic>', 'override selected topic')
+
+/*
   .on('option:topic', function () {
     process.env.TOPIC = this.opts().topic
   })
@@ -40,17 +36,19 @@ program
   .command('ls <type>')
   .description('List clusters/brokers/topics/groups/groupsByTopic/topicsByGroup')
   .action(ls)
+*/
 
 program
   .command('set <type> [value]')
   .description('Set a kafka cluster/topic/group')
-  .action(setter)
+  .action(set)
 
 program
   .command('put <name> <brokers>')
   .description('Add/Replace a kafka cluster by name')
   .action(putCluster)
 
+/*
 program
   .command('delete <name>')
   .description('Delete a kafka cluster by name')
@@ -65,12 +63,13 @@ program
   .command('consumer')
   .description('Consume messages of selected topic')
   .action(consumer)
-
+*/
 program
   .command('show [section]')
   .description('Show selected options clusters/config/selected')
   .action(show)
 
+/*
 program
   .command('config')
   .description('Update config')
@@ -90,5 +89,6 @@ if (config.getBooleanConfig(config.CONFIG_BANNER)) {
     )
   )
 }
+*/
 
 program.parse()

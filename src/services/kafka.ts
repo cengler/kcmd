@@ -195,7 +195,7 @@ async function topicsByGroup(brokers: string[]): Promise<{topics: string[], grou
   }))
 }
 
-module.exports = {
+export default {
   topics,
   consumer,
   topicOffsets,

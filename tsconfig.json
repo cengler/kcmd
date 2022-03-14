@@ -5,6 +5,7 @@
     "declaration": true,
     "outDir": "./lib",
     "strict": true,
+    "esModuleInterop": true,
     "allowSyntheticDefaultImports": true
   },
   "include": ["src"],
