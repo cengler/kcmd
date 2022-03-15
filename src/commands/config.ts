@@ -1,9 +1,9 @@
-import config from './../services/config'
-import inquirer from 'inquirer'
+import config, {ConfigValues, LevelType} from './../services/config'
 
 function updateConfig () {
-  let cs = config.getConfig()
-  const qs = config.configValues.map(
+  let actualConfig: ConfigValues = config.getConfig().config
+  // TODO
+  /*const qs = config.configValues.map(
     c => ({
       type: 'list',
       name: c.config,
@@ -17,6 +17,8 @@ function updateConfig () {
       Object.keys(answers).forEach(c => cs[c] = answers[c])
       config.setConfig(cs)
     })
+
+   */
 }
 
-module.exports = updateConfig
+export default updateConfig

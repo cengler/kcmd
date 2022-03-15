@@ -23,19 +23,19 @@ type Selected = {
 };
 
 export enum DisplayType {
-  table,
-  tsv,
-  json
+  table = "table",
+  tsv = "tsv",
+  json = "json"
 }
 
 export enum LevelType {
-  DEBUG,
-  INFO,
-  ERROR,
-  SUCCESS
+  DEBUG = "DEBUG",
+  INFO = "INFO",
+  ERROR = "ERROR",
+  SUCCESS = "SUCCESS"
 }
 
-type ConfigValues = {
+export type ConfigValues = {
   banner: boolean,
   level: LevelType,
   verbose: boolean,

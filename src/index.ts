@@ -10,31 +10,32 @@ import consumer from './commands/consumer'
 import deleteCluster from './commands/deleteCluster'
 import metadata from './commands/metadata'
 import putCluster from './commands/putCluster'
+import updateConfig from './commands/config'
+import offsets from './commands/offsets'
 import inquirer from 'inquirer'
 import inquirerPrompt from 'inquirer-autocomplete-prompt'
 const packageJson = require('./../package.json')
 
 inquirer.registerPrompt('autocomplete', inquirerPrompt)
 
+const p = program
+
 program
   .name(`kcmd`)
   .usage(`[global options] command - ${packageJson.version}`)
   .version(packageJson.version, '-v, --version', 'output the current version')
   .option('-t, --topic <topic>', 'override selected topic')
-
-/*
   .on('option:topic', function () {
-    process.env.TOPIC = this.opts().topic
+    process.env.TOPIC = p.opts().topic
   })
   .option('-g, --group <group>', 'override selected group')
   .on('option:group', function () {
-    process.env.GROUP = this.opts().group
+    process.env.GROUP = p.opts().group
   })
   .option('-c, --cluster <name>', 'override selected cluster by name')
   .on('option:cluster', function () {
-    process.env.CLUSTER = this.opts().cluster
+    process.env.CLUSTER = p.opts().cluster
   })
-*/
 
 program
   .command('ls <type>')
@@ -56,12 +57,10 @@ program
   .description('Delete a kafka cluster by name')
   .action(deleteCluster)
 
-/*
 program
   .command('offsets <type>')
   .description('Get topic/group offsets and lag')
   .action(offsets)
-*/
 
 program
   .command('consumer')
@@ -73,12 +72,10 @@ program
   .description('Show selected options clusters/config/selected')
   .action(show)
 
-/*
 program
   .command('config')
   .description('Update config')
   .action(updateConfig)
-*/
 
 program
   .command('metadata <type>')
