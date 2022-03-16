@@ -1,24 +1,31 @@
-import config, {ConfigValues, LevelType} from './../services/config'
+import config, {AllConfig, ConfigValues, DisplayType, LevelType} from './../services/config'
+import inquirer from "inquirer";
 
 function updateConfig () {
-  let actualConfig: ConfigValues = config.getConfig().config
-  // TODO
-  /*const qs = config.configValues.map(
+  let conf: AllConfig = config.getConfig()
+  let configValues = [
+      {name: 'display', message: 'Set display', default: conf.config.display, choices: Object.keys(DisplayType)},
+      {name: 'level', message: 'Set log level', default: conf.config.level, choices: ['DEBUG', 'INFO','ERROR','SUCCESS']},
+      {name: 'verbose', message: 'Set display', default: conf.config.verbose, choices: ['true', 'false']},
+      {name: 'banner', message: 'Set banner', default: conf.config.banner, choices: ['true', 'false']}
+  ]
+  const qs = configValues.map(
     c => ({
       type: 'list',
-      name: c.config,
-      message: c.message ? c.message : `Set ${c.config} config`,
-      default: cs[c.config],
-      choices: c.values,
+      name: c.name,
+      message: c.message,
+      default: c.default,
+      choices: c.choices,
     })
   )
   inquirer.prompt(qs)
     .then(answers => {
-      Object.keys(answers).forEach(c => cs[c] = answers[c])
-      config.setConfig(cs)
+        conf.config.display = answers.display
+        conf.config.level = answers.level
+        conf.config.verbose = answers.verbose
+        conf.config.banner = answers.banner
+        config.setConfig(conf)
     })
-
-   */
 }
 
 export default updateConfig

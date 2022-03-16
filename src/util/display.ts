@@ -1,8 +1,8 @@
 // display according configuration
-import config, {DisplayType} from '../services/config'
+import config, {DisplayType, LevelType} from '../services/config'
 import chalk from 'chalk'
 
-function convertToTSV(arr: Array<any>): string {
+function convertToTSV(arr: Array<any>, columns: string[] | undefined = undefined): string {
   if (arr.length === 0) return ''
   else if (typeof arr[0] === 'string') return arr.join('\n')
   
@@ -20,7 +20,7 @@ const print = (data: any, columns: string[] | undefined = undefined) => {
     else
       console.table(data)
   } else if (d === DisplayType.tsv) {
-    console.log(convertToTSV(data))
+    console.log(convertToTSV(data, columns))
   } else {
     //data.forEach(r => console.log(r))
     // TODO ver diferencias array o no
@@ -30,27 +30,32 @@ const print = (data: any, columns: string[] | undefined = undefined) => {
 }
 
 const error = (message: string, e: any | undefined = undefined) => {
-  if(e) {
-    if (config.getConfig().config.verbose) {
-      console.log(chalk.red.bold(message, e))
+  if(LevelType.ERROR >= config.getLogLevel()) {
+    if(e) {
+      if (config.getConfig().config.verbose) {
+        console.error(chalk.red.bold(message, e))
+      } else {
+        console.error(chalk.red.bold(message, 'See more with -v'))
+      }
     } else {
-      console.log(chalk.red.bold(message, 'See more with -v'))
+      console.error(chalk.red.bold(message))
     }
-  } else {
-    console.log(chalk.red.bold(message))
   }
 }
 
 const info = (message: string) => {
-  console.log(chalk.blue.bold(message))
+  if(LevelType.INFO >= config.getLogLevel())
+    console.log(chalk.blue.bold(message))
 }
 
 const success = (message: string) => {
-  console.log(chalk.green.bold(message))
+  if(LevelType.SUCCESS >= config.getLogLevel())
+    console.log(chalk.green.bold(message))
 }
 
 const debug = (message: string) => {
-  console.log(chalk.rgb(255, 165, 0).bold(message))
+  if(LevelType.DEBUG >= config.getLogLevel())
+    console.log(chalk.rgb(255, 165, 0).bold(message))
 }
 
 const raw = (message: string) => {

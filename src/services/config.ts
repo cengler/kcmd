@@ -29,15 +29,15 @@ export enum DisplayType {
 }
 
 export enum LevelType {
-  DEBUG = "DEBUG",
-  INFO = "INFO",
-  ERROR = "ERROR",
-  SUCCESS = "SUCCESS"
+  DEBUG,
+  INFO,
+  ERROR ,
+  SUCCESS
 }
 
 export type ConfigValues = {
   banner: boolean,
-  level: LevelType,
+  level: string,
   verbose: boolean,
   display: DisplayType
 }
@@ -51,7 +51,7 @@ export type AllConfig = {
 const defaultConfig: AllConfig = {
   config: {
     display: DisplayType.table,
-    level: LevelType.INFO,
+    level: "INFO",
     banner: false,
     verbose: false
   },
@@ -78,6 +78,12 @@ function setConfig(config: AllConfig) {
   const w: any = config
   w.clusters = Object.fromEntries(w.clusters)
   return conf.set(CONFIG_NAME, w)
+}
+
+function getLogLevel(): LevelType {
+  // TODO ver si -v pasa el log a debug
+  // @ts-ignore
+  return LevelType[getConfig().config.level]
 }
 
 function getSelectedCluster(): KafkaCluster | undefined {
@@ -157,5 +163,6 @@ export default {
   getSelectedTopic,
   putCluster,
   remCluster,
-  deleteCluster
+  deleteCluster,
+  getLogLevel
 }
