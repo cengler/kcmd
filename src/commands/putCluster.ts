@@ -1,4 +1,4 @@
-import config, {KafkaCluster} from './../services/config'
+import config, {KafkaCluster} from '../services/config'
 import display from './../util/display'
 import {split} from "lodash";
 

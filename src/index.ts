@@ -1,7 +1,4 @@
 #! /usr/bin/env node
-//import figlet from 'figlet'
-//import chalk from 'chalk'
-//import config from './services/config'
 import {program} from 'commander'
 import show from './commands/show'
 import set from './commands/set'
@@ -14,6 +11,7 @@ import updateConfig from './commands/config'
 import offsets from './commands/offsets'
 import inquirer from 'inquirer'
 import inquirerPrompt from 'inquirer-autocomplete-prompt'
+import display from './util/display'
 const packageJson = require('./../package.json')
 
 inquirer.registerPrompt('autocomplete', inquirerPrompt)
@@ -22,7 +20,6 @@ const p = program
 
 program
   .name(`kcmd`)
-  .usage(`[global options] command - ${packageJson.version}`)
   .version(packageJson.version, '-v, --version', 'output the current version')
   .option('-t, --topic <topic>', 'override selected topic')
   .on('option:topic', function () {
@@ -35,6 +32,10 @@ program
   .option('-c, --cluster <name>', 'override selected cluster by name')
   .on('option:cluster', function () {
     process.env.CLUSTER = p.opts().cluster
+  })
+  .option('--verbose', 'verbose logs')
+  .on('option:verbose', function () {
+    process.env.VERBOSE = p.opts().verbose
   })
 
 program
@@ -82,16 +83,6 @@ program
   .description('Get metadata of topic/groups')
   .action(metadata)
 
-/*
-if (config.getBooleanConfig(config.CONFIG_BANNER)) {
-  console.log(
-    chalk.green(
-      figlet.textSync('kcmd', {
-        horizontalLayout: 'full',
-      })
-    )
-  )
-}
-*/
 
+display.showBanner()
 program.parse()

@@ -2,16 +2,19 @@ import {
   AssignerProtocol,
   CompressionCodecs,
   CompressionTypes,
+  GroupDescription,
+  GroupOverview,
   Kafka,
-  logLevel,
   logCreator,
   LogEntry,
-  GroupOverview, GroupDescription, MemberDescription, MemberAssignment, MemberMetadata
+  logLevel,
+  MemberAssignment,
+  MemberDescription,
+  MemberMetadata
 } from 'kafkajs'
 // @ts-ignore
 import {SnappyCodec} from 'kafkajs-snappy'
 import {v4} from 'uuid'
-import config from './config'
 import display from '../util/display'
 import _ from 'lodash'
 
@@ -36,23 +39,27 @@ export type GroupDesc = {
 
 const clientId = 'my-cli'
 
-const logCreator: logCreator= (logLevel: logLevel) => (entry: LogEntry) => {
+const logCreator: logCreator = (logLevel: logLevel) => (entry: LogEntry) => {
   const {timestamp, logger, message, ...others} = entry.log
-  if (entry.label === 'ERROR') {
-    display.error(`${entry.label} [${entry.namespace}] ${message}`,JSON.stringify(others))
-  } else {
-    display.info(`${entry.label} [${entry.namespace}] ${message} ${JSON.stringify(others)}`)
+  switch (entry.label) {
+    case 'ERROR':
+      display.error(`${entry.label} [${entry.namespace}] ${message}`, JSON.stringify(others))
+      break
+    case 'INFO':
+      display.info(`${entry.label} [${entry.namespace}] ${message}`)
+      break
+    default:
+      display.debug(`${entry.label} [${entry.namespace}] ${message}`)
   }
 }
 
 function k(brokers: string[]): Kafka {
-  const verbose = config.getConfig().config.verbose
   return new Kafka({
     clientId,
     brokers,
     connectionTimeout: 10000,
     requestTimeout: 30000,
-    logLevel: verbose ? logLevel.INFO : logLevel.ERROR,
+    logLevel: logLevel.DEBUG,
     logCreator: logCreator
   })
 }

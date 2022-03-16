@@ -1,6 +1,8 @@
 // display according configuration
 import config, {DisplayType, LevelType} from '../services/config'
+import configUtils from '../util/configUtils'
 import chalk from 'chalk'
+import figlet from  'figlet'
 
 function convertToTSV(arr: Array<any>, columns: string[] | undefined = undefined): string {
   if (arr.length === 0) return ''
@@ -30,16 +32,14 @@ const print = (data: any, columns: string[] | undefined = undefined) => {
 }
 
 const error = (message: string, e: any | undefined = undefined) => {
-  if(LevelType.ERROR >= config.getLogLevel()) {
-    if(e) {
-      if (config.getConfig().config.verbose) {
-        console.error(chalk.red.bold(message, e))
-      } else {
-        console.error(chalk.red.bold(message, 'See more with -v'))
-      }
+  if(e) {
+    if (configUtils.getVerbose()) {
+      console.error(chalk.red.bold(message, e))
     } else {
-      console.error(chalk.red.bold(message))
+      console.error(chalk.red.bold(message, 'See more with --verbose'))
     }
+  } else {
+    console.error(chalk.red.bold(message))
   }
 }
 
@@ -49,8 +49,7 @@ const info = (message: string) => {
 }
 
 const success = (message: string) => {
-  if(LevelType.SUCCESS >= config.getLogLevel())
-    console.log(chalk.green.bold(message))
+  console.log(chalk.green.bold(message))
 }
 
 const debug = (message: string) => {
@@ -62,6 +61,19 @@ const raw = (message: string) => {
   console.log(message)
 }
 
+const showBanner = () => {
+  if (config.getConfig().config.banner) {
+    console.log(
+        chalk.green(
+            figlet.textSync('kcmd', {
+              horizontalLayout: 'full',
+            })
+        )
+    )
+  }
+}
+
+
 export default {
   print,
   //logCreator,
@@ -69,5 +81,6 @@ export default {
   debug,
   info,
   raw,
-  success
+  success,
+  showBanner
 }

@@ -6,7 +6,7 @@ function updateConfig () {
   let configValues = [
       {name: 'display', message: 'Set display', default: conf.config.display, choices: Object.keys(DisplayType)},
       {name: 'level', message: 'Set log level', default: conf.config.level, choices: ['DEBUG', 'INFO','ERROR','SUCCESS']},
-      {name: 'verbose', message: 'Set display', default: conf.config.verbose, choices: ['true', 'false']},
+      {name: 'verbose', message: 'Set verbose', default: conf.config.verbose, choices: ['true', 'false']},
       {name: 'banner', message: 'Set banner', default: conf.config.banner, choices: ['true', 'false']}
   ]
   const qs = configValues.map(

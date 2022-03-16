@@ -10,7 +10,7 @@ function show(section: string | undefined) {
   // CLUSTERS LIST
   if (!section || section === 'clusters') {
     const clusters = config.getConfig().clusters
-    display.success(`Clusters: ${JSON.stringify(Object.fromEntries(clusters), null, 2)}`)
+    display.success(`Clusters: ${JSON.stringify(clusters, null, 2)}`)
   }
   // CONFIG
   if (!section || section === 'config') {

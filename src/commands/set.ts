@@ -17,7 +17,7 @@ function setCluster(name: string) {
 
 function selectCluster() {
   let clusters = config.getClusters()
-  let selectedKafka = config.getSelectedCluster()
+  let selectedKafka = config.getConfig().selected.kafka
     inquirerUtils.selectOne(clusters, selectedKafka, 'Select kafka cluster', 'name')
     .then(cluster => {
       const idx = _.findIndex(clusters, ['name', cluster])
@@ -56,7 +56,7 @@ function selectTopic() {
   const sk = configUtils.getKafka()
   kafka.topics(sk.brokers)
     .then(ts => {
-      const st = config.getSelectedTopic()
+      const st = config.getConfig().selected.topic
         inquirerUtils.selectOneAuto(ts, st, 'Select topic')
         .then(topic => {
           config.setSelectedTopic(topic)
@@ -70,7 +70,7 @@ function selectGroup() {
   kafka.groups(sk.brokers)
     .then(gs => {
       const groups: string[] =  gs.map(t => t.groupId)
-      const sg = config.getSelectedGroup()
+      const sg = config.getConfig().selected.group
         inquirerUtils.selectOneAuto(groups, sg, 'Select group')
         .then(group => {
           config.setSelectedGroup(group)
