@@ -1,40 +1,42 @@
 #! /usr/bin/env node
-import figlet from 'figlet'
-import chalk from 'chalk'
-import config from './services/config'
 import {program} from 'commander'
-import putCluster from './commands/putCluster'
-import deleteCluster from './commands/deleteCluster'
-import setter from './commands/set'
-import metadata from './commands/metadata'
 import show from './commands/show'
-import consumer from './commands/consumer'
-import offsets from './commands/offsets'
-import updateConfig from './commands/config'
+import set from './commands/set'
 import ls from './commands/ls'
+import consumer from './commands/consumer'
+import deleteCluster from './commands/deleteCluster'
+import metadata from './commands/metadata'
+import putCluster from './commands/putCluster'
+import updateConfig from './commands/config'
+import offsets from './commands/offsets'
 import inquirer from 'inquirer'
 import inquirerPrompt from 'inquirer-autocomplete-prompt'
+import display from './util/display'
 const packageJson = require('./../package.json')
 
 inquirer.registerPrompt('autocomplete', inquirerPrompt)
 
+const p = program
+
 program
   .name(`kcmd`)
-  .usage(`[global options] command - ${packageJson.version}`)
   .version(packageJson.version, '-v, --version', 'output the current version')
   .option('-t, --topic <topic>', 'override selected topic')
   .on('option:topic', function () {
-    process.env.TOPIC = this.opts().topic
+    process.env.TOPIC = p.opts().topic
   })
   .option('-g, --group <group>', 'override selected group')
   .on('option:group', function () {
-    process.env.GROUP = this.opts().group
+    process.env.GROUP = p.opts().group
   })
   .option('-c, --cluster <name>', 'override selected cluster by name')
   .on('option:cluster', function () {
-    process.env.CLUSTER = this.opts().cluster
+    process.env.CLUSTER = p.opts().cluster
   })
-
+  .option('--verbose', 'verbose logs')
+  .on('option:verbose', function () {
+    process.env.VERBOSE = p.opts().verbose
+  })
 
 program
   .command('ls <type>')
@@ -44,7 +46,7 @@ program
 program
   .command('set <type> [value]')
   .description('Set a kafka cluster/topic/group')
-  .action(setter)
+  .action(set)
 
 program
   .command('put <name> <brokers>')
@@ -81,14 +83,6 @@ program
   .description('Get metadata of topic/groups')
   .action(metadata)
 
-if (config.getBooleanConfig(config.CONFIG_BANNER)) {
-  console.log(
-    chalk.green(
-      figlet.textSync('kcmd', {
-        horizontalLayout: 'full',
-      })
-    )
-  )
-}
 
+display.showBanner()
 program.parse()

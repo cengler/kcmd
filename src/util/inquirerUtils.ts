@@ -1,9 +1,11 @@
 import _ from 'lodash'
 import inquirer from 'inquirer'
+import {DistinctQuestion} from 'inquirer'
 import fuzzy from 'fuzzy'
+import {AutocompleteQuestionOptions} from "inquirer-autocomplete-prompt";
 
-const selectOne = (choices, startElement, message, field = null) => {
-  const question = {
+const selectOne = (choices: any[], startElement: any, message: string, field: string | undefined = undefined) => {
+  const question: DistinctQuestion = {
     type: 'list',
     name: 'value',
     message,
@@ -17,8 +19,8 @@ const selectOne = (choices, startElement, message, field = null) => {
   return inquirer.prompt([question]).then(a => a.value)
 }
 
-function searchInArray (arrayData) {
-  return (answers, input = '') =>
+function searchInArray (arrayData: any[]): (answersSoFar: any[], input: string | undefined) => Promise<any[]> {
+  return (answers: any[], input = '') =>
    new Promise((resolve) => {
      setTimeout(() => {
        const results = fuzzy.filter(input, arrayData).map((el) => el.original)
@@ -29,24 +31,23 @@ function searchInArray (arrayData) {
    });
 }
 
-const selectOneAuto = (choices, startElement, message, field = null) => {
-  const question = {
+
+const selectOneAuto = (choices: string[], startElement: string | undefined, message: string) => {
+  const question: AutocompleteQuestionOptions<any> = {
     type: 'autocomplete',
     name: 'value',
     message,
-    searchText: 'searching...',
-    emptyText: 'Nothing found!',
+    // TODO searchText: 'searching...',
+    // TODO emptyText: 'Nothing found!',
     source: searchInArray(choices),
   }
-  if (choices.length && field && startElement) {
-    question.default = _.findIndex(choices, [field, startElement[field]])
-  } else if (choices.length && startElement) {
+  if (choices.length && startElement) {
     question.default = startElement
   }
   return inquirer.prompt([question]).then(a => a.value)
 }
 
-module.exports = {
+export default {
   selectOne,
   selectOneAuto
 }

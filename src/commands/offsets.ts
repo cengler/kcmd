@@ -23,7 +23,8 @@ async function offsetsGroup() {
   const gOffsetsMap = new Map(gOffsets.map(i => [`${i.topic}-${i.partition}`, i.offset]))
   const lags = tOffsets.map(({topic, partition, offset}) => {
     const topicOffset = Number.parseInt(offset)
-    const groupOffset = Number.parseInt(gOffsetsMap.get(`${topic}-${partition}`))
+    const gOffset = gOffsetsMap.get(`${topic}-${partition}`)
+    const groupOffset = gOffset ? Number.parseInt(gOffset) : 0
     const lag = topicOffset - groupOffset
     return {
       topic,
@@ -36,7 +37,7 @@ async function offsetsGroup() {
   display.print(lags)
 }
 
-function offsets(type) {
+function offsets(type: string) {
   switch (type) {
     case 'topic':
       offsetsTopic()
@@ -49,4 +50,4 @@ function offsets(type) {
   }
 }
 
-module.exports = offsets
+export default offsets

@@ -41,7 +41,7 @@ function topicsByGroup() {
     })
 }
 
-async function groupsByTopic () {
+function groupsByTopic () {
   const sk = configUtils.getKafka()
   kafka.topicsByGroup(sk.brokers)
     .then(gst => {
@@ -50,7 +50,7 @@ async function groupsByTopic () {
     })
 }
 
-function ls(type) {
+function ts(type: string) {
   switch (type) {
     case 'clusters':
       clusters()
@@ -76,5 +76,5 @@ function ls(type) {
   }
 }
 
-module.exports = ls
+export default ts
 
